@@ -1,4 +1,4 @@
-package src.demo;
+package demo;
 
 import java.sql.SQLException;
 import java.util.Scanner;

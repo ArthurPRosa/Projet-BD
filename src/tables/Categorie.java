@@ -1,4 +1,4 @@
-package src.tables;
+package tables;
 
 import java.util.Objects;
 

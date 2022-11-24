@@ -1,4 +1,4 @@
-package src.tables;
+package tables;
 
 import java.util.ArrayList;
 import java.util.HashSet;
