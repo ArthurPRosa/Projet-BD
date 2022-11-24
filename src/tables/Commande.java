@@ -1,4 +1,4 @@
-package demo.BD.tables;
+package src.tables;
 
 public class Commande {
     private int idComm;

@@ -1,4 +1,4 @@
-package demo.BD.tables;
+package src.tables;
 
 import java.util.ArrayList;
 import java.util.HashSet;

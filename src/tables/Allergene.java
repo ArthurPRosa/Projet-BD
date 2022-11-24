@@ -1,6 +1,7 @@
-package demo.BD.tables;
+package src.tables;
 
 public class Allergene {
+    private String allergene;
     public static void parseList() {
     }
 

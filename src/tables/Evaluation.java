@@ -1,4 +1,4 @@
-package demo.BD.tables;
+package src.tables;
 
 public class Evaluation {
     private String dateEval;

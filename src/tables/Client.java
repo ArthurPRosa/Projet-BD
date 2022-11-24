@@ -1,4 +1,4 @@
-package demo.BD.tables;
+package src.tables;
 
 public class Client {
     private int idUtil;

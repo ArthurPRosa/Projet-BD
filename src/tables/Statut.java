@@ -1,4 +1,4 @@
-package demo.BD.tables;
+package src.tables;
 
 enum Statut {
     ATTENTE_DE_CONFIRMATION, VALIDEE, DISPONIBLE, EN_LIVRAISON, ANNULEE_PAR_LE_CLIENT, ANNULEE_PAR_LE_RESTAU,

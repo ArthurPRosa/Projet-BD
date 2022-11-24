@@ -1,4 +1,4 @@
-package demo.BD.demo;
+package src.demo;
 
 import java.util.LinkedList;
 

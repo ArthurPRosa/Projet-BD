@@ -1,6 +1,6 @@
-package demo.BD.demo;
+package src.demo;
 
-import demo.BD.tables.*;
+import src.tables.*;
 
 import java.util.Arrays;
 import java.util.LinkedList;
