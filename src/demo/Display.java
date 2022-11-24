@@ -13,7 +13,7 @@ public class Display {
     public static void helper() {
         System.out.println("\n#################################\n");
         System.out.println("Faites help pour un récap des commandes disponibles, help <commande> pour un détail plus précis.");
-        System.out.println("Si vous avez terminé d'entrer vos donnez, entrez la commande apply");
+        System.out.println("Si vous avez terminé d'entrer vos données, entrez la commande apply");
     }
 
     public static void displayList(LinkedList<String> list) {
@@ -25,37 +25,5 @@ public class Display {
     public static void displayHelp(LinkedList<String> commands) {
         System.out.println("Liste des commandes disponibles :");
         displayList(commands);
-    }
-
-    public static void listRest() {
-        // TODO
-    }
-
-    public static void listSchedule() {
-        // TODO
-    }
-
-    public static void listDishes() {
-        // TODO
-    }
-
-    public static void listAllergens() {
-        // TODO
-    }
-
-    public static void listCategories() {
-        // TODO
-    }
-
-    public static void listUsers() {
-        // TODO
-    }
-
-    public static void listOrders() {
-        // TODO
-    }
-
-    public static void listRatings() {
-        // TODO
     }
 }
