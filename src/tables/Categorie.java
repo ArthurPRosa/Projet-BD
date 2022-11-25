@@ -1,5 +1,7 @@
 package tables;
 
+import demo.Demonstrator;
+
 import java.util.Objects;
 
 public class Categorie {
@@ -16,17 +18,19 @@ public class Categorie {
     }
 
     public static void parseList() {
+        // TODO afficher la liste des catégories depuis la bdd
     }
 
     public static void parseAdd() {
+        Categorie cat = new Categorie(Demonstrator.readConsole("Quel est le nom de la catégorie ?"));
+        System.out.println(cat);
     }
 
     public static void parseDel() {
-    }
-
-    public Categorie nomCat(String nomCat) {
-        this.nomCat = nomCat;
-        return this;
+        parseList();
+        // TODO permettre à l'utilisateur d'en choisir une
+        // TODO la supprimer de la bdd
+        // TODO réfléchir aux problèmes d'héritage si on supprime une mère qui a une mère
     }
 
     public Categorie catMere(Categorie catMere) {

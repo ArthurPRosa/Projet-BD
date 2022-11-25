@@ -23,6 +23,7 @@ public class Restaurant {
     }
 
     public static void parseList() {
+        // TODO récupérer les restaurants depuis la bdd et les afficher
     }
 
     public static void parseAdd() {
@@ -32,11 +33,15 @@ public class Restaurant {
                 .adr(Demonstrator.readConsole("Quel est son adresse ?"))
                 .nbPlace(Integer.parseInt(Demonstrator.readConsole("Combien de places possède-t-il ?")))
                 .textPres(Demonstrator.readConsole("Entrez un texte de présentation :"));
-
+                // TODO catégories
+                // TODO horaires
         System.out.println(rest);
     }
 
     public static void parseDel() {
+        // TODO récupérer les éléments depuis la bdd et les afficher
+        // TODO permettre à l'utilisateur d'en choisir un
+        // TODO le supprimer de la bdd
     }
 
     public Restaurant nom(String nom) {
