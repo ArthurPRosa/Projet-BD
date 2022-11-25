@@ -2,9 +2,22 @@ package demo;
 
 import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
+
+import org.aesh.readline.Readline;
+import org.aesh.readline.ReadlineBuilder;
+import org.aesh.readline.tty.terminal.TerminalConnection;
+import org.aesh.terminal.tty.Signal;
+import org.aesh.terminal.utils.Config;
 
 public class Demonstrator {
 
+	static private Readline readline;
+	static private TerminalConnection terminalConn;
+	static private AtomicBoolean readlineAvailable = new AtomicBoolean(true);
+	static private AtomicBoolean inParsing = new AtomicBoolean(false);
+	static private String lastInput;
 
 	public static void main(String[] args) {
 
@@ -31,15 +44,25 @@ public class Demonstrator {
 		});
 
 		try {
+			terminalConn = new TerminalConnection(new Console());
 			while (true) {
-				System.out.print(">");
-				if (!sc.hasNextLine())
-					break;
-				String entry = sc.nextLine();
-				if (entry.equals("exit") || entry.equals("quit")) {
-					break;
+				while (!readlineAvailable.compareAndSet(true, false)) {
 				}
-				Command.parseCommand(entry);
+				readline.readline(terminalConn, ">", (s) -> {
+					Thread th = new Thread(new Runnable() {
+						@Override
+						public void run() {
+							inParsing.set(true);
+							Command.parseCommand(s);
+							inParsing.set(false);
+						}
+					});
+					th.start();
+					readlineAvailable.set(true);
+				});
+				while (!readlineAvailable.get() || inParsing.get())
+					Thread.sleep(10);
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -47,4 +70,43 @@ public class Demonstrator {
 		}
 		// shutdown hook will take care of closing connection.
 	}
+
+	public static String readConsole() {
+		if (!readlineAvailable.compareAndSet(true, false))
+			throw new IllegalStateException();
+		readline.readline(terminalConn, "<", (s) -> {
+			lastInput = s;
+			readlineAvailable.set(true);
+		});
+		try {
+			while (!readlineAvailable.get())
+				Thread.sleep(10);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lastInput;
+	}
+
+	public static String readConsole(String prompt) {
+		System.out.println(prompt);
+		return readConsole();
+	}
+
+	public static class Console implements Consumer<org.aesh.terminal.Connection> {
+
+		@Override
+		public void accept(org.aesh.terminal.Connection connection) {
+			readline = ReadlineBuilder.builder().enableHistory(false).build();
+			// setting our own signal handler for ctrl-c signals, lets close if we get any
+			connection.setSignalHandler(signal -> {
+				if (signal == Signal.INT)
+					connection.write(Config.getLineSeparator());
+				connection.close();
+				System.exit(0);
+			});
+			// lets open the connection to the terminal using this thread
+			connection.openNonBlocking();
+		}
+	}
+
 }

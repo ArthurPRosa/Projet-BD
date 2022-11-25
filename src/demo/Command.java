@@ -1,10 +1,17 @@
 package demo;
 
-import tables.*;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.regex.Pattern;
+
+import tables.Allergene;
+import tables.Categorie;
+import tables.Client;
+import tables.Commande;
+import tables.Evaluation;
+import tables.Horaires;
+import tables.Plat;
+import tables.Restaurant;
 
 /**
  * Class handling commands passed onto the terminal
