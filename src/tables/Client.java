@@ -26,6 +26,7 @@ public class Client {
     }
 
     public static void parseList() {
+        // TODO lister les clients depuis la bdd
     }
 
     public static void parseAdd() {
@@ -38,6 +39,8 @@ public class Client {
     }
 
     public static void parseDel() {
+        // TODO lister les clients
+        // TODO laisser l'utilisateur en supprimer un
     }
 
     public Client mdp(String mdp) {

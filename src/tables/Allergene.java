@@ -6,6 +6,7 @@ public class Allergene {
     private String nomallergene;
     public static void parseList() {
         // TODO récupérer la liste des allergènes depuis la bdd et l'afficher
+        // TODO affichage par plat
     }
 
     public static void parseAdd() {

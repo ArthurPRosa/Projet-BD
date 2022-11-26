@@ -17,9 +17,14 @@ public class Commande {
     private String hArrivee = null;
 
     public static void parseList() {
+        // TODO afficher les commandes depuis la bdd
+        // TODO affichage par restaurant
+        // TODO affichage par idCompte
+        // TODO affichage par statut
     }
 
     public static void parseAdd() {
+        // TODO comment avoir le prix de la commande ?
         System.out.println("Quel est le type de commande ?");
         int i = 0;
         for (typeCommande tc : typeCommande.values()) {
@@ -33,10 +38,19 @@ public class Commande {
                 .emailRest(Demonstrator.readConsole("Entrez l'email du restaurant chez qui passer la commande :"))
                 .typeComm(s)
                 .statut(statutCommande.ATTENTE);
+        if (s == typeCommande.LIVRAISON) {
+            commande.adrLivraison(Demonstrator.readConsole("Entrez l'adresse de livraison :"))
+                    .infoLivreur(Demonstrator.readConsole("Entrez les informations pour le livreur :"))
+                    .hLivraison(Demonstrator.readConsole("Entrez l'heure de la livraison"));
+        } else if (s == typeCommande.SUR_PLACE) {
+            commande.nbPersonnes(Integer.parseInt(Demonstrator.readConsole("Entrez le nombre de places à réserver :")))
+                    .hArrivee(Demonstrator.readConsole("Entrez la date d'arrivée :"));
+        }
         System.out.println(commande);
     }
 
     public static void parseDel() {
+        // TODO afficher les commandes et permettre à l'utilisateur d'en supprimer une
     }
 
     public Commande dateCommande(String date) {

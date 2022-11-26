@@ -1,5 +1,7 @@
 package tables;
 
+import demo.Demonstrator;
+
 public class Evaluation {
     private String dateEval;
     private String hEval;
@@ -7,13 +9,21 @@ public class Evaluation {
     private int note;
 
     public static void parseList() {
+        // TODO lister les évaluations depuis la base de données
+        // TODO affichage par restaurant
+        // TODO affichage par idCompte
     }
 
     public static void parseAdd() {
+        Evaluation evaluation = new Evaluation().dateEval(Demonstrator.readConsole("Entrez la date de l'évaluation"))
+                .hEval(Demonstrator.readConsole("Entrez l'heure de l'évaluation"))
+                .avis(Demonstrator.readConsole("Entrez votre avis :"))
+                .note(Integer.parseInt(Demonstrator.readConsole("Entrez votre note :")));
+        System.out.println(evaluation);
     }
 
     public static void parseDel() {
-
+        parseList();
     }
 
     public int getNote() {

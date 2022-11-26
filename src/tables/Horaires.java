@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Horaires {
+    private Jour jour;
+    private String heureOuverture;
+    private String heureFermeture;
     private ArrayList<ArrayList<Date>> horJours;
 
     public Horaires() {
