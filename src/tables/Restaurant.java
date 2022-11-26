@@ -14,7 +14,7 @@ public class Restaurant {
     private Horaires horaires;
     private int nbPlace;
     private String textPres;
-    private ArrayList<Type> typeComm = new ArrayList<Type>();
+    private ArrayList<Commande.typeCommande> typeComm = new ArrayList<Commande.typeCommande>();
     private ArrayList<Evaluation> evals = new ArrayList<Evaluation>();
     private double note;
 
@@ -86,7 +86,7 @@ public class Restaurant {
         return this;
     }
 
-    public Restaurant typeComm(Type typeComm) {
+    public Restaurant typeComm(Commande.typeCommande typeComm) {
         this.typeComm.add(typeComm);
         return this;
     }
@@ -112,11 +112,6 @@ public class Restaurant {
         this.note = nMoyenne;
         return this;
     }
-
-    public enum Type {
-        LIVRAISON, A_EMPORTER, SUR_PLACE
-    }
-
     @Override
     public String toString() {
         return "Restaurant{" +

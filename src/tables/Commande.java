@@ -1,134 +1,136 @@
 package tables;
 
+import demo.Demonstrator;
+
 public class Commande {
-    private int idComm;
-    private String date;
-    private String h;
-    private String client;
-    private String restau;
-    private Restaurant.Type typeComm;
-    private String contenu;
-    private int pFinal;
-    private Statut statut;
+    private String dateCommande;
+    private String heureCommande;
+    private int idCompte;
+    private String emailRest;
+    private typeCommande typeComm;
+    private int prixCommande;
+    private statutCommande statut;
     private String adrLivraison = null;
     private String infoLivreur = null;
     private String hLivraison = null;
     private int nbPersonnes = 0;
     private String hArrivee = null;
-    private Evaluation evalComm = null;
-
-    public Commande(int idCommande) {
-        this.idComm = idCommande;
-    }
 
     public static void parseList() {
     }
 
     public static void parseAdd() {
+        System.out.println("Quel est le type de commande ?");
+        int i = 0;
+        for (typeCommande tc : typeCommande.values()) {
+            System.out.println(i +  "> " + tc.toString());
+            i++;
+        }
+        typeCommande s = typeCommande.valueOf(Demonstrator.readConsole());
+        Commande commande = new Commande().heureCommande(Demonstrator.readConsole("Entrez l'heure de la commande :"))
+                .dateCommande(Demonstrator.readConsole("Entrez la date de la commande : "))
+                .idCompte(Integer.parseInt(Demonstrator.readConsole("Entrez l'id du compte qui passe la commande : ")))
+                .emailRest(Demonstrator.readConsole("Entrez l'email du restaurant chez qui passer la commande :"))
+                .typeComm(s)
+                .statut(statutCommande.ATTENTE);
+        System.out.println(commande);
     }
 
     public static void parseDel() {
     }
 
-    public Commande idCommande(int idCommande) {
-        this.idComm = idCommande;
+    public Commande dateCommande(String date) {
+        this.dateCommande = dateCommande;
         return this;
     }
 
-    public Commande h(String h) {
-        this.h = h;
+    public Commande heureCommande(String date) {
+        this.heureCommande = heureCommande;
         return this;
     }
 
-    public Commande client(String client) {
-        this.client = client;
+    public Commande idCompte(int idCompte) {
+        this.idCompte = idCompte;
         return this;
     }
 
-    public Commande restau(String restau) {
-        this.restau = restau;
+    public Commande emailRest(String emailRest) {
+        this.emailRest = emailRest;
         return this;
     }
 
-    public Commande typeComm(Restaurant.Type typeComm) {
+
+    public Commande typeComm(typeCommande typeComm) {
         this.typeComm = typeComm;
         return this;
     }
 
-    public Commande contenu(String contenu) {
-        this.contenu = contenu;
-        return this;
-    }
 
-    public Commande pFinal(int pFinal) {
-        this.pFinal = pFinal;
-        return this;
-    }
-
-    public Commande statut(Statut statut) {
+    public Commande statut(statutCommande statut) {
         this.statut = statut;
         return this;
     }
 
     public Commande adrLivraison(String adrLivraison) {
-        if (this.typeComm == Restaurant.Type.LIVRAISON) {
+        if (this.typeComm == typeCommande.LIVRAISON) {
             this.adrLivraison = adrLivraison;
         }
         return this;
     }
 
     public Commande infoLivreur(String infoLivreur) {
-        if (this.typeComm == Restaurant.Type.LIVRAISON) {
+        if (this.typeComm == typeCommande.LIVRAISON) {
             this.infoLivreur = infoLivreur;
         }
         return this;
     }
 
     public Commande hLivraison(String hLivraison) {
-        if (this.typeComm == Restaurant.Type.LIVRAISON) {
+        if (this.typeComm == typeCommande.LIVRAISON) {
             this.hLivraison = hLivraison;
         }
         return this;
     }
 
     public Commande nbPersonnes(int nbPersonnes) {
-        if (this.typeComm == Restaurant.Type.SUR_PLACE) {
+        if (this.typeComm == typeCommande.SUR_PLACE) {
             this.nbPersonnes = nbPersonnes;
         }
         return this;
     }
 
     public Commande hArrivee(String hArrivee) {
-        if (this.typeComm == Restaurant.Type.SUR_PLACE) {
+        if (this.typeComm == typeCommande.SUR_PLACE) {
             this.hArrivee = hArrivee;
         }
-        return this;
-    }
-
-    public Commande evalComm(Evaluation evalComm) {
-        this.evalComm = evalComm;
         return this;
     }
 
     @Override
     public String toString() {
         return "Commande{" +
-                "idComm=" + idComm +
-                ", date='" + date + '\'' +
-                ", h='" + h + '\'' +
-                ", client='" + client + '\'' +
-                ", restau='" + restau + '\'' +
+                "dateCommande='" + dateCommande + '\'' +
+                ", heureCommande='" + heureCommande + '\'' +
+                ", idCompte=" + idCompte +
+                ", emailRest='" + emailRest + '\'' +
                 ", typeComm=" + typeComm +
-                ", contenu='" + contenu + '\'' +
-                ", pFinal=" + pFinal +
+                ", prixCommande=" + prixCommande +
                 ", statut=" + statut +
                 ", adrLivraison='" + adrLivraison + '\'' +
                 ", infoLivreur='" + infoLivreur + '\'' +
                 ", hLivraison='" + hLivraison + '\'' +
                 ", nbPersonnes=" + nbPersonnes +
                 ", hArrivee='" + hArrivee + '\'' +
-                ", evalComm=" + evalComm +
                 '}';
     }
+
+    public enum typeCommande {
+        LIVRAISON, A_EMPORTER, SUR_PLACE
+    }
+
+    public enum statutCommande {
+        ATTENTE, VALIDEE, LIVRAISON, DISPONIBLE, ANNULEECLIENT, ANNULEEREST
+    }
+
 }
 
