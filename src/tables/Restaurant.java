@@ -3,7 +3,7 @@ package tables;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import demo.Demonstrator;
+import demo.Console;
 
 public class Restaurant {
     private String emailRest;
@@ -21,15 +21,16 @@ public class Restaurant {
 
     public static void parseList() {
         // TODO récupérer les restaurants depuis la bdd et les afficher
+
     }
 
     public static void parseAdd() {
-        Restaurant rest = new Restaurant(Demonstrator.readConsole("Quel est le mail du restaurant ?"))
-                .nom(Demonstrator.readConsole("Quel est le nom du restaurant ?"))
-                .numTel(Integer.parseInt(Demonstrator.readConsole("Quel est son numéro de téléphone ?")))
-                .adr(Demonstrator.readConsole("Quel est son adresse ?"))
-                .nbPlace(Integer.parseInt(Demonstrator.readConsole("Combien de places possède-t-il ?")))
-                .textPres(Demonstrator.readConsole("Entrez un texte de présentation :"));
+        Restaurant rest = new Restaurant(Console.readConsole("Quel est le mail du restaurant ?"))
+                .nom(Console.readConsole("Quel est le nom du restaurant ?"))
+                .numTel(Integer.parseInt(Console.readConsole("Quel est son numéro de téléphone ?")))
+                .adr(Console.readConsole("Quel est son adresse ?"))
+                .nbPlace(Integer.parseInt(Console.readConsole("Combien de places possède-t-il ?")))
+                .textPres(Console.readConsole("Entrez un texte de présentation :"));
                 // TODO catégories
         System.out.println(rest);
     }

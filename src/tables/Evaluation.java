@@ -1,6 +1,6 @@
 package tables;
 
-import demo.Demonstrator;
+import demo.Console;
 
 public class Evaluation {
     private String dateEval;
@@ -15,19 +15,15 @@ public class Evaluation {
     }
 
     public static void parseAdd() {
-        Evaluation evaluation = new Evaluation().dateEval(Demonstrator.readConsole("Entrez la date de l'évaluation"))
-                .hEval(Demonstrator.readConsole("Entrez l'heure de l'évaluation"))
-                .avis(Demonstrator.readConsole("Entrez votre avis :"))
-                .note(Integer.parseInt(Demonstrator.readConsole("Entrez votre note :")));
+        Evaluation evaluation = new Evaluation().dateEval(Console.readConsole("Entrez la date de l'évaluation"))
+                .hEval(Console.readConsole("Entrez l'heure de l'évaluation"))
+                .avis(Console.readConsole("Entrez votre avis :"))
+                .note(Integer.parseInt(Console.readConsole("Entrez votre note :")));
         System.out.println(evaluation);
     }
 
     public static void parseDel() {
         parseList();
-    }
-
-    public int getNote() {
-        return note;
     }
 
     public Evaluation dateEval(String dateEval) {
@@ -46,7 +42,7 @@ public class Evaluation {
     }
 
     public Evaluation note(int note) {
-        this.note = (note > 5) ? 5 : note;
+        this.note = Math.min(note, 5);
         return this;
     }
 

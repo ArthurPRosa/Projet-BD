@@ -1,6 +1,6 @@
 package tables;
 
-import demo.Demonstrator;
+import demo.Console;
 
 public class Commande {
     private String dateCommande;
@@ -31,20 +31,20 @@ public class Commande {
             System.out.println(i +  "> " + tc.toString());
             i++;
         }
-        typeCommande s = typeCommande.valueOf(Demonstrator.readConsole());
-        Commande commande = new Commande().heureCommande(Demonstrator.readConsole("Entrez l'heure de la commande :"))
-                .dateCommande(Demonstrator.readConsole("Entrez la date de la commande : "))
-                .idCompte(Integer.parseInt(Demonstrator.readConsole("Entrez l'id du compte qui passe la commande : ")))
-                .emailRest(Demonstrator.readConsole("Entrez l'email du restaurant chez qui passer la commande :"))
+        typeCommande s = typeCommande.valueOf(Console.readConsole());
+        Commande commande = new Commande().heureCommande(Console.readConsole("Entrez l'heure de la commande :"))
+                .dateCommande(Console.readConsole("Entrez la date de la commande : "))
+                .idCompte(Integer.parseInt(Console.readConsole("Entrez l'id du compte qui passe la commande : ")))
+                .emailRest(Console.readConsole("Entrez l'email du restaurant chez qui passer la commande :"))
                 .typeComm(s)
                 .statut(statutCommande.ATTENTE);
         if (s == typeCommande.LIVRAISON) {
-            commande.adrLivraison(Demonstrator.readConsole("Entrez l'adresse de livraison :"))
-                    .infoLivreur(Demonstrator.readConsole("Entrez les informations pour le livreur :"))
-                    .hLivraison(Demonstrator.readConsole("Entrez l'heure de la livraison"));
+            commande.adrLivraison(Console.readConsole("Entrez l'adresse de livraison :"))
+                    .infoLivreur(Console.readConsole("Entrez les informations pour le livreur :"))
+                    .hLivraison(Console.readConsole("Entrez l'heure de la livraison"));
         } else if (s == typeCommande.SUR_PLACE) {
-            commande.nbPersonnes(Integer.parseInt(Demonstrator.readConsole("Entrez le nombre de places à réserver :")))
-                    .hArrivee(Demonstrator.readConsole("Entrez la date d'arrivée :"));
+            commande.nbPersonnes(Integer.parseInt(Console.readConsole("Entrez le nombre de places à réserver :")))
+                    .hArrivee(Console.readConsole("Entrez la date d'arrivée :"));
         }
         System.out.println(commande);
     }

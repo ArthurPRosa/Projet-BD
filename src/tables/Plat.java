@@ -1,9 +1,6 @@
 package tables;
 
-import demo.Demonstrator;
-
-import java.util.ArrayList;
-import java.util.HashSet;
+import demo.Console;
 
 public class Plat {
     private String emailRest;
@@ -17,10 +14,10 @@ public class Plat {
     }
 
     public static void parseAdd() {
-        Plat plat = new Plat().emailRest(Demonstrator.readConsole("Entrez l'email du restaurant proposant ce plat :"))
-                .nomPlat(Demonstrator.readConsole("Entrez le nom du plat :"))
-                .prix(Integer.parseInt(Demonstrator.readConsole("Entrez le prix du plat :")))
-                .descPlat(Demonstrator.readConsole("Entrez la description du plat"));
+        Plat plat = new Plat().emailRest(Console.readConsole("Entrez l'email du restaurant proposant ce plat :"))
+                .nomPlat(Console.readConsole("Entrez le nom du plat :"))
+                .prix(Integer.parseInt(Console.readConsole("Entrez le prix du plat :")))
+                .descPlat(Console.readConsole("Entrez la description du plat"));
         System.out.println(plat);
     }
 

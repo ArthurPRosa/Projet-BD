@@ -19,7 +19,7 @@ import tables.Restaurant;
 public class Command {
 	private static final Pattern quotes = Pattern.compile("\".*\"");
 	private static final Pattern brackets = Pattern.compile("\\{.*}");
-	private static LinkedList<String> commands = new LinkedList<>(Arrays.asList("list", "add", "del", "exit"));
+	private static LinkedList<String> commands = new LinkedList<>(Arrays.asList("list", "add", "del", "exit", "quit", "help"));
 
 	public static void parseCommand(String cmd) {
 		String[] args = cmd.split(" ");

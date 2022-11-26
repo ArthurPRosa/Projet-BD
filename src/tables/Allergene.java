@@ -1,6 +1,6 @@
 package tables;
 
-import demo.Demonstrator;
+import demo.Console;
 
 public class Allergene {
     private String nomallergene;
@@ -10,7 +10,7 @@ public class Allergene {
     }
 
     public static void parseAdd() {
-        Allergene allergene = new Allergene(Demonstrator.readConsole("Quel est le nom de l'allergène ?"));
+        Allergene allergene = new Allergene(Console.readConsole("Quel est le nom de l'allergène ?"));
         System.out.println(allergene);
     }
 

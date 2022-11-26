@@ -1,6 +1,6 @@
 package tables;
 
-import demo.Demonstrator;
+import demo.Console;
 
 public class Client {
     private String emailClient;
@@ -30,11 +30,11 @@ public class Client {
     }
 
     public static void parseAdd() {
-        Client client = new Client(Demonstrator.readConsole("Entrez l'email du client : "))
-                .mdp(Demonstrator.readConsole("Entrez le mot de passe du client :"))
-                .nomClient(Demonstrator.readConsole("Entrez le nom du client : "))
-                .prenomClient(Demonstrator.readConsole("Entrez le prénom du client : "))
-                .adresseClient(Demonstrator.readConsole("Entrez l'adresse du client : "));
+        Client client = new Client(Console.readConsole("Entrez l'email du client : "))
+                .mdp(Console.readConsole("Entrez le mot de passe du client :"))
+                .nomClient(Console.readConsole("Entrez le nom du client : "))
+                .prenomClient(Console.readConsole("Entrez le prénom du client : "))
+                .adresseClient(Console.readConsole("Entrez l'adresse du client : "));
         idCompte++;
     }
 
