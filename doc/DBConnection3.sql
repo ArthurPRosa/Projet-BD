@@ -6,7 +6,13 @@ CREATE TABLE Categorie (
 CREATE TABLE APourMere(
     nomCategorieFille VARCHAR(100) REFERENCES Categorie (nomCategorie),
     nomCategorieMere VARCHAR(100) REFERENCES Categorie (nomCategorie),
-    PRIMARY KEY (nomCategorieMere)
+    PRIMARY KEY (nomCategorieFille)
+);
+
+CREATE TABLE EstCategorieDe (
+    emailRest VARCHAR(320) REFERENCES Restaurant (emailRest),
+    nomCategorie VARCHAR(100) REFERENCES Categorie (nomCategorie),
+    PRIMARY KEY(emailRest, nomCategorie)
 );
 
 CREATE TABLE Restaurant (
@@ -17,7 +23,6 @@ CREATE TABLE Restaurant (
     presentation VARCHAR(500),
     capaciteMax INT,
     noteRest INT,
-    nomCategorie VARCHAR(100) REFERENCES Categorie (nomCategorie),
     PRIMARY KEY (emailRest)
 );
 
@@ -41,7 +46,7 @@ CREATE TABLE Commande (
     emailRest VARCHAR(320) REFERENCES Restaurant (emailRest),
     prixCommande INT,
     statut VARCHAR(30) CHECK (statut IN ('attente','validee','disponible','livraison','annuleeClient','annuleeRest')),
-    PRIMARY KEY (dateCommande, heureCommande)
+    PRIMARY KEY (dateCommande, heureCommande, idCompte, emailRest)
 );
 
 CREATE TABLE SurPlace (
@@ -81,7 +86,7 @@ CREATE TABLE Client (
     nomClient VARCHAR(50),
     prenomClient VARCHAR(50),
     adresseClient VARCHAR(100),
-    idCompte INT REFERENCES Compte (idCompte),
+    idCompte INT REFERENCES Compte (idCompte) NOT NULL,
     PRIMARY KEY (emailClient)
 );
 
@@ -135,6 +140,121 @@ DROP TABLE Contient;
 DROP TABLE FaitPartieDe;
 DROP TABLE Plat;
 // todo
+
+// -------------- RESTAURANT --------------
+
+//Lister les restaurants
+SELECT * 
+FROM RESTAURANT R, POSSEDEHORAIRES P, ESTDELACATEGORIE E
+WHERE R.emailRest = P.emailRest AND R.emailRest = E.emailRest
+
+// ajouter un restaurant
+INSERT INTO RESTAURANT VALUES ()
+
+// -------------- PLAT --------------
+
+// Lister les Plats de un restaurant
+SELECT *
+FROM PLAT
+WHERE emailREst = user.input
+
+// ajouter un plat
+INSERT INTO PLAT VALUES ()
+
+// -------------- ALLERGENE --------------
+
+// Lister les allergènes
+SELECT *
+FROM ALLERGENE
+
+// Lister les allergènes dun certain plat
+SELECT *
+FROM CONTIENT
+WHERE emailREst = user.input AND nomPlat = user.input
+
+// ajouter un allergene
+INSERT INTO ALLERGENE VALUES ()
+
+//ajouter un allergene dans un plat
+INSERT INTO CONTIENT VALUES ()
+
+// -------------- CATEGORIE --------------
+
+
+// Lister les catégories
+SELECT *
+FROM CATEGORIE
+
+// Lister les catégories de un restaurant
+SELECT * 
+FROM 
+
+// ajouter un restaurant
+INSERT INTO PLAT VALUES ()
+
+//ajouter une catégorie
+INSERT INTO CATEGORIE VALUES ()
+//Si elle a une mere, 
+INSERT INTO APOURMERE VALUES ()
+
+//ajouter une catégorie pour un restaurant
+INSERT INTO CATEGORIE VALUES ()
+
+// -------------- USER/COMPTE --------------
+
+
+//Lister les utilisateurs
+SELECT *
+FROM CLIENT
+
+//Lister les comptes
+SELECT *
+FROM COMPTE
+
+// -------------- COMMANDE --------------
+
+
+// Lister les commandes
+SELECT *
+FROM COMMANDE
+
+// Lister les commandes par restaurant
+SELECT *
+FROM COMMANDE C, RESTAURANT R
+WHERE C.emailRest = R.emailRest
+
+// Lister les commandes par idCompte
+SELECT *
+FROM COMMANDE C, COMPTE CO
+WHERE C.idCompte = CO.idCompte
+
+// Lister les commandes par statut
+SELECT *
+FROM COMMANDE
+WHERE statut = user.input
+
+// ajouter une commande
+INSERT INTO COMMANDE VALUES ()
+
+// -------------- EVALUATION --------------
+
+//Lister les évaluations
+SELECT *
+FROM EVAL
+
+//Lister les évaluations par restaurant
+SELECT *
+FROM POSSEDEEVALUATION
+WHERE emailRest = user.input
+
+// -------------- HORAIRE --------------
+
+//Lister les horaires
+SELECT *
+FROM HORAIRE
+
+
+
 
 
 

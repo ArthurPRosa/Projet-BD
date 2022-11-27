@@ -6,24 +6,22 @@ import java.util.HashSet;
 import demo.Console;
 
 public class Restaurant {
-    private String email;
-    private String nom;
-    private int numTel;
-    private String adr;
-    private HashSet<Categorie> catRestau = new HashSet<Categorie>();
-    private Horaires horaires;
-    private int nbPlace;
-    private String textPres;
-    private ArrayList<Type> typeComm = new ArrayList<Type>();
-    private ArrayList<Evaluation> evals = new ArrayList<Evaluation>();
-    private double note;
+    private String emailRest;
+    private String nomRest;
+    private int telRest;
+    private String adresseRest;
+    private String presentation;
+    private int capaciteMax;
+    private double noteRest;
+    private HashSet<Categorie> nomCategories = new HashSet<Categorie>();
 
     public Restaurant(String email) {
-        this.email = email;
+        this.emailRest = email;
     }
 
     public static void parseList() {
         // TODO récupérer les restaurants depuis la bdd et les afficher
+
     }
 
     public static void parseAdd() {
@@ -45,92 +43,56 @@ public class Restaurant {
     }
 
     public Restaurant nom(String nom) {
-        this.nom = nom;
+        this.nomRest = nom;
         return this;
     }
 
     public Restaurant numTel(int numTel) {
-        this.numTel = numTel;
+        this.telRest = numTel;
         return this;
     }
 
     public Restaurant adr(String adr) {
-        this.adr = adr;
+        this.adresseRest = adr;
         return this;
     }
 
     public Restaurant catRestau(ArrayList<Categorie> catRestau) {
-        for (Categorie categorie : catRestau) {
-            this.catRestau.add(categorie);
-        }
+        this.nomCategories.addAll(catRestau);
         return this;
     }
 
     public Restaurant catRestau(Categorie catRestau) {
-        this.catRestau.add(catRestau);
-        return this;
-    }
-
-    public Restaurant horaires(Horaires horaires) {
-        this.horaires = horaires;
+        this.nomCategories.add(catRestau);
         return this;
     }
 
     public Restaurant nbPlace(int nbPlace) {
-        this.nbPlace = nbPlace;
+        this.capaciteMax = nbPlace;
         return this;
     }
 
     public Restaurant textPres(String textPres) {
-        this.textPres = textPres;
-        return this;
-    }
-
-    public Restaurant typeComm(Type typeComm) {
-        this.typeComm.add(typeComm);
-        return this;
-    }
-
-    public Restaurant evals(ArrayList<Evaluation> evals) {
-        for (Evaluation eval : evals) {
-            this.evals.add(eval);
-        }
-        return this;
-    }
-
-    public Restaurant evals(Evaluation eval) {
-        this.evals.add(eval);
+        this.presentation = textPres;
         return this;
     }
 
     public Restaurant note() {
-        double nMoyenne = 0;
-        for (Evaluation eval : this.evals) {
-            nMoyenne += eval.getNote();
-        }
-        nMoyenne /= this.evals.size();
-        this.note = nMoyenne;
+        // TODO calculer la note selon les évaluations du restaurant
         return this;
-    }
-
-    public enum Type {
-        LIVRAISON, A_EMPORTER, SUR_PLACE
     }
 
     @Override
     public String toString() {
         return "Restaurant{" +
-                "email='" + email + '\'' +
-                ", nom='" + nom + '\'' +
-                ", numTel=" + numTel +
-                ", adr='" + adr + '\'' +
-                ", catRestau=" + catRestau +
-                ", horaires=" + horaires +
-                ", nbPlace=" + nbPlace +
-                ", textPres='" + textPres + '\'' +
-                ", typeComm=" + typeComm +
-                ", evals=" + evals +
-                ", note=" + note +
+                "emailRest='" + emailRest + '\'' +
+                ", nomRest='" + nomRest + '\'' +
+                ", telRest=" + telRest +
+                ", adresseRest='" + adresseRest + '\'' +
+                ", presentation='" + presentation + '\'' +
+                ", capaciteMax=" + capaciteMax +
+                ", noteRest=" + noteRest +
+                ", nomCategories=" + nomCategories +
                 '}';
     }
 }

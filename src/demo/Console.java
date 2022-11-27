@@ -35,7 +35,7 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
         }
     }
 
-    public static void listenCommands() {
+    public static void prompt() {
         try {
             while (true) {
                 while (!readlineAvailable.compareAndSet(true, false))

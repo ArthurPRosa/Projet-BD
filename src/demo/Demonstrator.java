@@ -1,7 +1,5 @@
 package demo;
 
-import java.sql.SQLException;
-
 public class Demonstrator {
 
 	public static void main(String[] args) {
@@ -16,18 +14,14 @@ public class Demonstrator {
 			@Override
 			public void run() {
 				System.out.println("# Fermeture de la base de données.");
-				try {
-					Database.close();
-					Console.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				Database.closeConnection();
+				Console.close();
 				System.out.println("# Merci d'avoir utilisé ce démonstrateur !");
 				super.run();
 			}
 		});
 
-		Console.listenCommands();
+		Console.prompt();
 		// shutdown hook will take care of closing connection.
 	}
 

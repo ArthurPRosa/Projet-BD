@@ -1,67 +1,67 @@
 package tables;
 
-import java.util.ArrayList;
-import java.util.Date;
+import demo.Console;
+import demo.Database;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Horaires {
-    private ArrayList<ArrayList<Date>> horJours;
-
-    public Horaires() {
-        this.horJours = new ArrayList<ArrayList<Date>>(7);
-    }
+    private Jour jour;
+    private String heureOuverture;
+    private String heureFermeture;
 
     public static void parseList() {
+        // TODO afficher les horaires contenues dans la bdd
+        try {
+            PreparedStatement stmt = Database.getDb().prepareStatement
+                    ("SELECT * FROM HORAIRE");
+            ResultSet rset = stmt.executeQuery();
+
+            while (rset.next()) {
+                for (int i = 0; i < 1; i++) {
+                    System.out.println(rset.getString(i));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
     }
 
     public static void parseAdd() {
+        Horaires horaires = new Horaires().jour(Jour.valueOf(Console.readConsole("Entrez le jour de la semaine : ")))
+                .heureOuverture(Console.readConsole("Entrez l'heure d'ouverture"))
+                .heureFermeture(Console.readConsole("Entrez l'heure de fermeture"));
     }
 
     public static void parseDel() {
-
-    }
-
-    public void AddHor(Jour jour, Date horOuv, Date horFerm, Periode periode) {
-        horJours.get(jour.getNum()).set(periode.getNum(), horOuv);
-        horJours.get(jour.getNum()).set(periode.getNum() + 1, horFerm);
-    }
-
-    @Override
-    public String toString() {
-        return "Horaires{" +
-                "horJours=" + horJours +
-                '}';
+        // TODO supprimer un horaire
     }
 
     public enum Jour {
-        LUNDI(0),
-        MARDI(1),
-        MERCREDI(2),
-        JEUDI(3),
-        VENDREDI(4),
-        SAMEDI(5),
-        DIMANCHE(6);
-        private int numJ = 0;
-
-        Jour(int numJ) {
-            this.numJ = numJ;
-        }
-
-        public int getNum() {
-            return numJ;
-        }
+        LUNDI,
+        MARDI,
+        MERCREDI,
+        JEUDI,
+        VENDREDI,
+        SAMEDI,
+        DIMANCHE
     }
 
-    public enum Periode {
-        MIDI(0),
-        SOIR(2);
-        private int numH = 0;
+    public Horaires jour(Jour jour) {
+        this.jour = jour;
+        return this;
+    }
 
-        Periode(int numH) {
-            this.numH = numH;
-        }
+    public Horaires heureOuverture(String heureOuverture) {
+        this.heureOuverture = heureOuverture;
+        return this;
+    }
 
-        public int getNum() {
-            return numH;
-        }
+    public Horaires heureFermeture(String heureFermeture) {
+        this.heureFermeture = heureFermeture;
+        return this;
     }
 }
