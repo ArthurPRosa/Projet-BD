@@ -31,9 +31,9 @@ public class Horaires {
     }
 
     public static void parseAdd() {
-        Horaires horaires = new Horaires().jour(Jour.valueOf(Console.readConsole("Entrez le jour de la semaine : ")))
-                .heureOuverture(Console.readConsole("Entrez l'heure d'ouverture"))
-                .heureFermeture(Console.readConsole("Entrez l'heure de fermeture"));
+        Horaires horaires = new Horaires().jour(Jour.valueOf(Console.read("Entrez le jour de la semaine : ")))
+                .heureOuverture(Console.read("Entrez l'heure d'ouverture"))
+                .heureFermeture(Console.read("Entrez l'heure de fermeture"));
     }
 
     public static void parseDel() {

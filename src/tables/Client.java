@@ -30,11 +30,11 @@ public class Client {
     }
 
     public static void parseAdd() {
-        Client client = new Client(Console.readConsole("Entrez l'email du client : "))
-                .mdp(Console.readConsole("Entrez le mot de passe du client :"))
-                .nomClient(Console.readConsole("Entrez le nom du client : "))
-                .prenomClient(Console.readConsole("Entrez le prénom du client : "))
-                .adresseClient(Console.readConsole("Entrez l'adresse du client : "));
+        Client client = new Client(Console.read("Entrez l'email du client : "))
+                .mdp(Console.read("Entrez le mot de passe du client :"))
+                .nomClient(Console.read("Entrez le nom du client : "))
+                .prenomClient(Console.read("Entrez le prénom du client : "))
+                .adresseClient(Console.read("Entrez l'adresse du client : "));
         idCompte++;
     }
 

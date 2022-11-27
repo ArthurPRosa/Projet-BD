@@ -14,10 +14,10 @@ public class Plat {
     }
 
     public static void parseAdd() {
-        Plat plat = new Plat().emailRest(Console.readConsole("Entrez l'email du restaurant proposant ce plat :"))
-                .nomPlat(Console.readConsole("Entrez le nom du plat :"))
-                .prix(Integer.parseInt(Console.readConsole("Entrez le prix du plat :")))
-                .descPlat(Console.readConsole("Entrez la description du plat"));
+        Plat plat = new Plat().emailRest(Console.read("Entrez l'email du restaurant proposant ce plat :"))
+                .nomPlat(Console.read("Entrez le nom du plat :"))
+                .prix(Integer.parseInt(Console.read("Entrez le prix du plat :")))
+                .descPlat(Console.read("Entrez la description du plat"));
         System.out.println(plat);
     }
 

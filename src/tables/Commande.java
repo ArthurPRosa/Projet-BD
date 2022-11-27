@@ -28,23 +28,23 @@ public class Commande {
         System.out.println("Quel est le type de commande ?");
         int i = 0;
         for (typeCommande tc : typeCommande.values()) {
-            System.out.println(i +  "> " + tc.toString());
+            System.out.println(i + "> " + tc.toString());
             i++;
         }
-        typeCommande s = typeCommande.valueOf(Console.readConsole());
-        Commande commande = new Commande().heureCommande(Console.readConsole("Entrez l'heure de la commande :"))
-                .dateCommande(Console.readConsole("Entrez la date de la commande : "))
-                .idCompte(Integer.parseInt(Console.readConsole("Entrez l'id du compte qui passe la commande : ")))
-                .emailRest(Console.readConsole("Entrez l'email du restaurant chez qui passer la commande :"))
+        typeCommande s = typeCommande.valueOf(Console.read());
+        Commande commande = new Commande().heureCommande(Console.read("Entrez l'heure de la commande :"))
+                .dateCommande(Console.read("Entrez la date de la commande : "))
+                .idCompte(Console.readWithParse("Entrez l'id du compte qui passe la commande : ", Integer::parseInt))
+                .emailRest(Console.read("Entrez l'email du restaurant chez qui passer la commande :"))
                 .typeComm(s)
                 .statut(statutCommande.ATTENTE);
         if (s == typeCommande.LIVRAISON) {
-            commande.adrLivraison(Console.readConsole("Entrez l'adresse de livraison :"))
-                    .infoLivreur(Console.readConsole("Entrez les informations pour le livreur :"))
-                    .hLivraison(Console.readConsole("Entrez l'heure de la livraison"));
+            commande.adrLivraison(Console.read("Entrez l'adresse de livraison :"))
+                    .infoLivreur(Console.read("Entrez les informations pour le livreur :"))
+                    .hLivraison(Console.read("Entrez l'heure de la livraison"));
         } else if (s == typeCommande.SUR_PLACE) {
-            commande.nbPersonnes(Integer.parseInt(Console.readConsole("Entrez le nombre de places à réserver :")))
-                    .hArrivee(Console.readConsole("Entrez la date d'arrivée :"));
+            commande.nbPersonnes(Console.readWithParse("Entrez le nombre de places à réserver :", Integer::parseInt))
+                    .hArrivee(Console.read("Entrez la date d'arrivée :"));
         }
         System.out.println(commande);
     }
@@ -73,12 +73,10 @@ public class Commande {
         return this;
     }
 
-
     public Commande typeComm(typeCommande typeComm) {
         this.typeComm = typeComm;
         return this;
     }
-
 
     public Commande statut(statutCommande statut) {
         this.statut = statut;
@@ -147,4 +145,3 @@ public class Commande {
     }
 
 }
-

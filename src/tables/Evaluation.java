@@ -15,10 +15,10 @@ public class Evaluation {
     }
 
     public static void parseAdd() {
-        Evaluation evaluation = new Evaluation().dateEval(Console.readConsole("Entrez la date de l'évaluation"))
-                .hEval(Console.readConsole("Entrez l'heure de l'évaluation"))
-                .avis(Console.readConsole("Entrez votre avis :"))
-                .note(Integer.parseInt(Console.readConsole("Entrez votre note :")));
+        Evaluation evaluation = new Evaluation().dateEval(Console.read("Entrez la date de l'évaluation"))
+                .hEval(Console.read("Entrez l'heure de l'évaluation"))
+                .avis(Console.read("Entrez votre avis :"))
+                .note(Console.readWithParse("Entrez votre note :", Integer::parseInt));
         System.out.println(evaluation);
     }
 
