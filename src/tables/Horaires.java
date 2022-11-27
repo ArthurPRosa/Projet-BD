@@ -6,6 +6,7 @@ import demo.Database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 public class Horaires {
     private Jour jour;
@@ -15,8 +16,7 @@ public class Horaires {
     public static void parseList() {
         // TODO afficher les horaires contenues dans la bdd
         try {
-            PreparedStatement stmt = Database.getDb().prepareStatement
-                    ("SELECT * FROM HORAIRE");
+            PreparedStatement stmt = Database.getDb().prepareStatement("SELECT * FROM HORAIRE");
             ResultSet rset = stmt.executeQuery();
 
             while (rset.next()) {
@@ -31,7 +31,7 @@ public class Horaires {
     }
 
     public static void parseAdd() {
-        Horaires horaires = new Horaires().jour(Jour.valueOf(Console.read("Entrez le jour de la semaine : ")))
+        Horaires horaires = new Horaires().jour(Console.readWithParse("Entrez le jour de la semaine : ",Jour::parse))
                 .heureOuverture(Console.read("Entrez l'heure d'ouverture"))
                 .heureFermeture(Console.read("Entrez l'heure de fermeture"));
         System.out.println(horaires);
@@ -59,7 +59,26 @@ public class Horaires {
         JEUDI,
         VENDREDI,
         SAMEDI,
-        DIMANCHE
+        DIMANCHE;
+
+        public static Jour parse(String s) throws ParseException{
+            try {
+                return Jour.valueOf(s);
+            } catch (IllegalArgumentException e) {
+                for (Jour j : Jour.values()) {
+                    if (s.equalsIgnoreCase(j.name()))
+                        return j;
+                }
+                try {
+                    int index = Integer.parseInt(s);
+                    if (index >= 0 && index < Jour.values().length)
+                        return Jour.values()[index];
+                } catch (NumberFormatException e2) {
+                }
+            }
+            System.out.println("Veuillez rentrer un jour valide");
+            throw new ParseException(s, 0);
+        }
     }
 
     public Horaires jour(Jour jour) {
