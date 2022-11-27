@@ -2,7 +2,6 @@ package demo;
 
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.regex.Pattern;
 
 import tables.Allergene;
 import tables.Categorie;
@@ -17,8 +16,6 @@ import tables.Restaurant;
  * Class handling commands passed onto the terminal
  */
 public class Command {
-	private static final Pattern quotes = Pattern.compile("\".*\"");
-	private static final Pattern brackets = Pattern.compile("\\{.*}");
 	private static LinkedList<String> commands = new LinkedList<>(Arrays.asList("list", "add", "del", "exit"));
 
 	public static void parseCommand(String cmd) {

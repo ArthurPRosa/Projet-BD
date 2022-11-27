@@ -1,8 +1,8 @@
 package tables;
 
-import demo.Demonstrator;
-
 import java.util.Objects;
+
+import demo.Console;
 
 public class Categorie {
     private String nomCat;
@@ -22,7 +22,7 @@ public class Categorie {
     }
 
     public static void parseAdd() {
-        Categorie cat = new Categorie(Demonstrator.readConsole("Quel est le nom de la catégorie ?"));
+        Categorie cat = new Categorie(Console.read("Quel est le nom de la catégorie ?"));
         System.out.println(cat);
     }
 

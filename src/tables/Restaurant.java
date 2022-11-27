@@ -3,7 +3,7 @@ package tables;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import demo.Demonstrator;
+import demo.Console;
 
 public class Restaurant {
     private String email;
@@ -27,14 +27,14 @@ public class Restaurant {
     }
 
     public static void parseAdd() {
-        Restaurant rest = new Restaurant(Demonstrator.readConsole("Quel est le mail du restaurant ?"))
-                .nom(Demonstrator.readConsole("Quel est le nom du restaurant ?"))
-                .numTel(Integer.parseInt(Demonstrator.readConsole("Quel est son numéro de téléphone ?")))
-                .adr(Demonstrator.readConsole("Quel est son adresse ?"))
-                .nbPlace(Integer.parseInt(Demonstrator.readConsole("Combien de places possède-t-il ?")))
-                .textPres(Demonstrator.readConsole("Entrez un texte de présentation :"));
-                // TODO catégories
-                // TODO horaires
+        Restaurant rest = new Restaurant(Console.read("Quel est le mail du restaurant ?"))
+                .nom(Console.read("Quel est le nom du restaurant ?"))
+                .numTel(Console.readWithParse("Quel est son numéro de téléphone", Integer::parseInt))
+                .adr(Console.read("Quel est son adresse ?"))
+                .nbPlace(Console.readWithParse("Combien de places possède-t-il ?", Integer::parseInt))
+                .textPres(Console.read("Entrez un texte de présentation :"));
+        // TODO catégories
+        // TODO horaires
         System.out.println(rest);
     }
 
