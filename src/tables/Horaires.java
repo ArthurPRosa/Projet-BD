@@ -34,6 +34,18 @@ public class Horaires {
         Horaires horaires = new Horaires().jour(Jour.valueOf(Console.read("Entrez le jour de la semaine : ")))
                 .heureOuverture(Console.read("Entrez l'heure d'ouverture"))
                 .heureFermeture(Console.read("Entrez l'heure de fermeture"));
+        System.out.println(horaires);
+        try {
+            // TODO
+            PreparedStatement stmt = Database.getDb().prepareStatement
+                    ("");
+            ResultSet rset = stmt.executeQuery();
+
+
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
     }
 
     public static void parseDel() {
