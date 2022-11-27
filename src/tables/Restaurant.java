@@ -29,8 +29,8 @@ public class Restaurant {
         try {
             PreparedStatement stmt = Database.getDb().prepareStatement
                     ("SELECT * " +
-                            "FROM RESTAURANT R, POSSEDEHORAIRES P, ESTDELACATEGORIE E" +
-                            "WHERE R.emailRest = P.emailRest AND R.emailRest = E.emailRest;");
+                            "FROM RESTAURANT R, POSSEDEHORAIRES P, ESTDELACATEGORIE E " +
+                            "WHERE R.emailRest = P.emailRest AND R.emailRest = E.emailRest");
             ResultSet rset = stmt.executeQuery();
 
             while (rset.next()) {

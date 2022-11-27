@@ -1,11 +1,15 @@
 package demo;
 
+import javax.xml.crypto.Data;
+
 public class Demonstrator {
 
 	public static void main(String[] args) {
 		Display.presentation();
 		Database.connection();
 		Display.helper();
+		Database.createTables();
+		Database.deleteTables();
 
 		Console.init();
 
