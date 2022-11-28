@@ -42,7 +42,35 @@ public class Restaurant {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
         }
+    }
 
+    public static
+    public static void parseListDateFiltered()
+    {
+        //Horaires.Jour jour = Console.readWithParse("Entrez le jour de la semaine : ", Horaires.Jour::parse);
+        String jour = Console.read("Entrez le jour de la semaine : ");
+        String heure = Console.read("Entrez l'heure d'ouverture");
+
+        try {
+            PreparedStatement stmt = Database.getDb().prepareStatement
+                    ("SELECT * " +
+                            "FROM RESTAURANT R, POSSEDEHORAIRES P" +
+                            "WHERE R.emailRest = P.emailRest AND P.jour = ?" +
+                            "AND P.heureOuverture <= ? AND P.heureFermeture >= ?");
+            stmt.setString(0, jour);
+            stmt.setString(1, heure);
+            stmt.setString(2, heure);
+            ResultSet rset = stmt.executeQuery();
+
+            while (rset.next()) {
+                for (int i = 0; i < 4; i++) {
+                    System.out.println(rset.getString(i));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
     }
 
     public static void parseAdd() {

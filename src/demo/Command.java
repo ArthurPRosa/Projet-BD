@@ -63,6 +63,8 @@ public class Command {
 				break;
 			case "order":
 				Commande.parseAdd();
+			case "log":
+				Client.parseConnexion();
 			// exit command is treating inside demonstrator
 		}
 	}
