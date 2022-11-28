@@ -61,6 +61,8 @@ public class Command {
 					case "rating" -> Evaluation.parseDel();
 				}
 				break;
+			case "log":
+				Client.parseConnexion();
 			// exit command is treating inside demonstrator
 		}
 	}
