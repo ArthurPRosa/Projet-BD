@@ -227,6 +227,7 @@ public class Database {
     }
 
     public static void populate() {
+        // TODO populate Categorie
         executeCommand("INSERT INTO Categorie VALUES ('Cuisine savoyarde')");
         executeCommand("INSERT INTO Restaurant VALUES " +
                 "('montagne-rouge@outlook.fr'," +
@@ -235,6 +236,14 @@ public class Database {
                 "'3 rue de la Montagne', " +
                 "'Un bon restaurant de la montagne.', " +
                 "100)");
+
+        // TODO populate APourMere
+        // TODO populate Horaires
+        // TODO populate PossedeHoraires
+        // TODO populate Plat
+        // TODO populate FaitPartieDe
+        // TODO populate Allergene
+        // TODO populate Contient
     }
 
     public static void executeCommand(String query) {
