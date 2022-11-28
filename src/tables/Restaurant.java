@@ -57,7 +57,7 @@ public class Restaurant {
         System.out.println(rest);
         try {
             PreparedStatement stmt = Database.getDb().prepareStatement
-                    ("INSERT INTO RESTAURANT VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?");
+                    ("INSERT INTO RESTAURANT VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, emailRest);
             stmt.setString(2, nomRest);
             stmt.setInt(3, telRest);
@@ -65,7 +65,8 @@ public class Restaurant {
             stmt.setString(5, presentation);
             stmt.setInt(6, capaciteMax);
             stmt.setInt(7, 0);
-            stmt.setArray(8, (Array) nomCategories);
+            stmt.setString(8, "Hello");
+            //stmt.setArray(8, Database.getDb().createArrayOf("VARCHAR", nomCategories.toArray()));
 
             stmt.executeQuery();
         } catch (SQLException e) {
