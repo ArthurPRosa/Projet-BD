@@ -78,7 +78,8 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
     }
 
     public static String read(String prompt) {
-        System.out.println(prompt);
+        if (prompt != null)
+            System.out.println(prompt);
         return read();
     }
 
@@ -102,7 +103,7 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
         try {
             return parser.parse(read(prompt));
         } catch (ParseException | NumberFormatException e) {
-            System.out.println("Vous n'avez pas donné le bon type !" );
+            System.out.println("Vous n'avez pas donné le bon type !");
             return readWithParse(prompt, parser);
         }
     }

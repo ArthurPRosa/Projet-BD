@@ -17,7 +17,7 @@ import tables.Restaurant;
  */
 public class Command {
 	private static LinkedList<String> commands = new LinkedList<>(
-			Arrays.asList("list", "add", "del", "exit", "quit", "help"));
+			Arrays.asList("list", "add", "del", "exit", "quit", "help", "order"));
 
 	public static void parseCommand(String cmd) {
 		String[] args = cmd.split(" ");
@@ -61,6 +61,8 @@ public class Command {
 					case "rating" -> Evaluation.parseDel();
 				}
 				break;
+			case "order":
+				Commande.parseAdd();
 			// exit command is treating inside demonstrator
 		}
 	}
