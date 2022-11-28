@@ -54,6 +54,7 @@ public class Client {
                    return;
                }
             }
+            stmt.close();
             System.out.println("Connexion refusée");
         } catch (SQLException e) {
             System.err.println("SQL request failed");
