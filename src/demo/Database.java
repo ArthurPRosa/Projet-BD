@@ -50,7 +50,6 @@ public class Database {
                         "adresseRest VARCHAR(100)," +
                         "presentation VARCHAR(500)," +
                         "capaciteMax INT," +
-                        "noteRest INT," +
                         "PRIMARY KEY (emailRest)" +
                         ")");
         createTable
@@ -155,7 +154,7 @@ public class Database {
                         "PRIMARY KEY (nomPlat)," +
                         "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest))");
         createTable(
-                "CREATE TABLE Allergenes (" +
+                "CREATE TABLE Allergene (" +
                         "nomAllergene VARCHAR(100) PRIMARY KEY" +
                         ")"
         );
@@ -176,9 +175,10 @@ public class Database {
                 ("CREATE TABLE Contient (" +
                         "emailRest VARCHAR(320)," +
                         "nomPlat VARCHAR(100)," +
-                        "nomAllergene VARCHAR(100) REFERENCES Allergenes (nomAllergene)," +
+                        "nomAllergene VARCHAR(100)," +
                         "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest)," +
-                        "FOREIGN KEY (nomPlat) REFERENCES Plat (nomPlat))");
+                        "FOREIGN KEY (nomPlat) REFERENCES Plat (nomPlat)," +
+                        "FOREIGN KEY (nomAllergene) REFERENCES Allergene (nomAllergene))");
     }
 
     public static void createTable(String query) {
@@ -196,7 +196,7 @@ public class Database {
     public static void deleteTables() {
         dropTable("Contient");
         dropTable("FaitPartieDe");
-        dropTable("Allergenes");
+        dropTable("Allergene");
         dropTable("Plat");
         dropTable("PossedeHoraires");
         dropTable("Horaire");
@@ -227,6 +227,25 @@ public class Database {
     }
 
     public static void populate() {
+        executeCommand("INSERT INTO Categorie VALUES ('Cuisine savoyarde')");
+        executeCommand("INSERT INTO Restaurant VALUES " +
+                "('montagne-rouge@outlook.fr'," +
+                " 'La Montagne Rouge', " +
+                "0169325643, " +
+                "'3 rue de la Montagne', " +
+                "'Un bon restaurant de la montagne.', " +
+                "100)");
+    }
 
+    public static void executeCommand(String query) {
+        try {
+            Statement stmt = Database.getDb().createStatement();
+            stmt.executeQuery(query);
+            stmt.close();
+            System.out.println("Successfully executed " + query.split(" ")[0] + " command");
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
     }
 }
