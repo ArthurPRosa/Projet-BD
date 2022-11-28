@@ -211,7 +211,6 @@ public class Database {
         dropTable("APourMere");
         dropTable("Categorie");
         dropTable("Restaurant");
-
     }
 
     public static void dropTable(String tableName) {
@@ -378,10 +377,30 @@ public class Database {
         executeCommand("INSERT INTO PossedeHoraires VALUES('Vendredi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'pizza-campus@orange.fr')");
         executeCommand("INSERT INTO PossedeHoraires VALUES('Samedi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'pizza-campus@orange.fr')");
         executeCommand("INSERT INTO PossedeHoraires VALUES('Samedi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'pizza-campus@orange.fr')");
-        // TODO populate Plat
-        // TODO populate FaitPartieDe
-        // TODO populate Allergene
-        // TODO populate Contient
+        // populate Plat
+        executeCommand("INSERT INTO Plat VALUES ('montagne-rouge@outlook.fr', 'Bières moussues', 15, 'Ça réchauffe le ventre !')");
+        executeCommand("INSERT INTO Plat VALUES ('montagne-rouge@outlook.fr', 'Fondue géante', 29, 'Ne perdez pas votre crouton...')");
+        executeCommand("INSERT INTO Plat VALUES ('le-dragon-bleu@sushi.jp', 'Sushis à volonté', 25, 'Yen a jamais assez.')");
+        executeCommand("INSERT INTO Plat VALUES ('le-dragon-bleu@sushi.jp', 'Sashimi', 12, 'C est bon ça !')");
+        executeCommand("INSERT INTO Plat VALUES ('old-el-paso@wrap.mex', 'Sauce Old El Paso du Chef', 19, 'No no Jose.')");
+        executeCommand("INSERT INTO Plat VALUES ('old-el-paso@wrap.mex', 'Patatas', 13, 'Les bonnes fritas con Patatas.')");
+        executeCommand("INSERT INTO Plat VALUES ('old-el-paso@wrap.mex', 'Tacos 8 viandes', 30, 'Ay Caramba !')");
+        executeCommand("INSERT INTO Plat VALUES ('kssoulet@merguez.fr', 'Cassoulet', 12, 'Le délicieux cassoulet de Mamie.')");
+        executeCommand("INSERT INTO Plat VALUES ('kssoulet@merguez.fr', 'Risotto', 8, 'Vous reprendrez bien un peu de risotto')");
+        executeCommand("INSERT INTO Plat VALUES ('pizza-campus@orange.fr', 'Pizza peperonne', 10, 'Un pocco di peperonne')");
+        executeCommand("INSERT INTO Plat VALUES ('pizza-campus@orange.fr', 'Pizza Aubergines', 11, 'Qui n aime pas les aubergines')");
+        executeCommand("INSERT INTO Plat VALUES ('pizza-campus@orange.fr', 'Pizza 4 saisons', 9, 'En honneur à Vivaldi')");
+        // populate Allergene
+        executeCommand("INSERT INTO Allergene VALUES ('Lactose')");
+        executeCommand("INSERT INTO Allergene VALUES ('Bleu')");
+        executeCommand("INSERT INTO Allergene VALUES ('Gluten')");
+        // populate Contient
+        executeCommand("INSERT INTO Contient VALUES  ('montagne-rouge@outlook.fr', 'Fondue géante', 'Bleu')");
+        executeCommand("INSERT INTO Contient VALUES  ('pizza-campus@orange.fr', 'Pizza 4 saisons', 'Bleu')");
+        executeCommand("INSERT INTO Contient VALUES  ('pizza-campus@orange.fr', 'Pizza 4 saisons', 'Gluten')");
+        executeCommand("INSERT INTO Contient VALUES ('pizza-campus@orange.fr', 'Pizza Aubergines', 'Gluten')");
+        executeCommand("INSERT INTO Contient VALUES ('pizza-campus@orange.fr', 'Pizza peperonne', 'Gluten')");
+        executeCommand("INSERT INTO Contient VALUES ('old-el-paso@wrap.mex', 'Sauce Old El Paso du Chef', 'Lactose')");
     }
 
     public static void executeCommand(String query) {
