@@ -61,7 +61,7 @@ public class Database {
         createTable
                 ("CREATE TABLE Eval (" +
                         "dateEval DATE," +
-                        "heureEval TIMESTAMP," +
+                        "heureEval INTERVAL DAY(0) TO SECOND," +
                         "avis VARCHAR(500)," +
                         "note INT," +
                         "PRIMARY KEY (dateEval, heureEval, avis, note)" +
@@ -74,7 +74,7 @@ public class Database {
         createTable
                 ("CREATE TABLE Commande (" +
                         "dateCommande DATE," +
-                        "heureCommande TIMESTAMP," +
+                        "heureCommande INTERVAL DAY(0) TO SECOND," +
                         "idCompte INT," +
                         "emailRest VARCHAR(320)," +
                         "prixCommande INT," +
@@ -86,34 +86,34 @@ public class Database {
         createTable
                 ("CREATE TABLE SurPlace (" +
                         "dateCommande DATE," +
-                        "heureCommande TIMESTAMP," +
+                        "heureCommande INTERVAL DAY(0) TO SECOND," +
                         "idCompte INT," +
                         "emailRest VARCHAR(320)," +
                         "adresseLivraison VARCHAR(100)," +
                         "infos VARCHAR(500)," +
-                        "heureLivraison TIMESTAMP," +
+                        "heureLivraison INTERVAL DAY(0) TO SECOND," +
                         "FOREIGN KEY (dateCommande, heureCommande) REFERENCES Commande (dateCommande, heureCommande)," +
                         "FOREIGN KEY (idCompte) REFERENCES Compte (idCompte)," +
                         "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest))");
         createTable
                 ("CREATE TABLE Livraison (" +
                         "dateCommande DATE," +
-                        "heureCommande TIMESTAMP," +
+                        "heureCommande INTERVAL DAY(0) TO SECOND," +
                         "idCompte INT," +
                         "emailRest VARCHAR(320)," +
                         "nbPersonne INT," +
-                        "heureArrivee TIMESTAMP," +
+                        "heureArrivee INTERVAL DAY(0) TO SECOND," +
                         "FOREIGN KEY (dateCommande, heureCommande) REFERENCES Commande (dateCommande, heureCommande)," +
                         "FOREIGN KEY (idCompte) REFERENCES Compte (idCompte)," +
                         "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest))");
         createTable
                 ("CREATE TABLE PossedeEvaluation (" +
                         "dateCommande DATE," +
-                        "heureCommande TIMESTAMP," +
+                        "heureCommande INTERVAL DAY(0) TO SECOND," +
                         "idCompte INT," +
                         "emailRest VARCHAR(320)," +
                         "dateEval DATE," +
-                        "heureEval TIMESTAMP," +
+                        "heureEval INTERVAL DAY(0) TO SECOND," +
                         "avis VARCHAR(500)," +
                         "note INT," +
                         "FOREIGN KEY (dateEval, heureEval, avis, note) REFERENCES Eval (dateEval, heureEval, avis, note)," +
@@ -133,15 +133,15 @@ public class Database {
         createTable
                 ("CREATE TABLE Horaire (" +
                         "jour VARCHAR(8)," +
-                        "heureOuverture TIMESTAMP," +
-                        "heureFermeture TIMESTAMP," +
+                        "heureOuverture INTERVAL DAY(0) TO SECOND," +
+                        "heureFermeture INTERVAL DAY(0) TO SECOND," +
                         "PRIMARY KEY (jour, heureOuverture, heureFermeture)" +
                         ")");
         createTable
                 ("CREATE TABLE PossedeHoraires (" +
                         "jour VARCHAR(8)," +
-                        "heureOuverture TIMESTAMP," +
-                        "heureFermeture TIMESTAMP," +
+                        "heureOuverture INTERVAL DAY(0) TO SECOND," +
+                        "heureFermeture INTERVAL DAY(0) TO SECOND," +
                         "emailRest VARCHAR(320)," +
                         "FOREIGN KEY (jour, heureOuverture, heureFermeture) REFERENCES Horaire (jour, heureOuverture, heureFermeture)," +
                         "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest))");
@@ -161,7 +161,7 @@ public class Database {
         createTable
                 ("CREATE TABLE FaitPartieDe (" +
                         "dateCommande DATE," +
-                        "heureCommande TIMESTAMP," +
+                        "heureCommande INTERVAL DAY(0) TO SECOND," +
                         "idCompte INT," +
                         "emailRest VARCHAR(320)," +
                         "nomPlat VARCHAR(100)," +
@@ -227,8 +227,17 @@ public class Database {
     }
 
     public static void populate() {
-        // TODO populate Categorie
+        // populate Categorie
+        executeCommand("INSERT INTO Categorie VALUES ('Cuisine asiatique')");
+        executeCommand("INSERT INTO Categorie VALUES ('Cuisine française')");
+        executeCommand("INSERT INTO Categorie VALUES ('Cuisine métropolitaine')");
+        executeCommand("INSERT INTO Categorie VALUES ('Cuisine des antilles')");
+        executeCommand("INSERT INTO Categorie VALUES ('Cuisine de la Réunion')");
         executeCommand("INSERT INTO Categorie VALUES ('Cuisine savoyarde')");
+        executeCommand("INSERT INTO Categorie VALUES ('Cuisine mexicaine')");
+        executeCommand("INSERT INTO Categorie VALUES ('Cuisine italienne')");
+        executeCommand("INSERT INTO Categorie VALUES ('Cuisine européenne')");
+        // populate Restaurant
         executeCommand("INSERT INTO Restaurant VALUES " +
                 "('montagne-rouge@outlook.fr'," +
                 " 'La Montagne Rouge', " +
@@ -236,10 +245,139 @@ public class Database {
                 "'3 rue de la Montagne', " +
                 "'Un bon restaurant de la montagne.', " +
                 "100)");
+        executeCommand("INSERT INTO Restaurant VALUES " +
+                "('le-dragon-bleu@sushi.jp'," +
+                " 'Le Dragon Bleu', " +
+                "0169746643, " +
+                "'3 avenue des brebis', " +
+                "'Un excellent restaurant asiatique.', " +
+                "150)");
+        executeCommand("INSERT INTO Restaurant VALUES " +
+                "('old-el-paso@wrap.mex'," +
+                " 'Tacos et Co', " +
+                "0169918243, " +
+                "'3 allée des carottes', " +
+                "'Un super restaurant mexicain.', " +
+                "30)");
+        executeCommand("INSERT INTO Restaurant VALUES " +
+                "('kssoulet@merguez.fr'," +
+                " 'La Petit Cassoulet de Mamie', " +
+                "0969325748, " +
+                "'3 rue des pépins', " +
+                "'Un restaurant du terroir comme on les aime.', " +
+                "300)");
+        executeCommand("INSERT INTO Restaurant VALUES " +
+                "('pizza-campus@orange.fr'," +
+                " 'Pizza Campus', " +
+                "0169203843, " +
+                "'3 rue Giscard Destaing', " +
+                "'Le restaurant où aller quand le frigo est vide.', " +
+                "200)");
+        // populate EstCategorieDe
+        executeCommand("INSERT INTO EstCategorieDe VALUES" +
+                "('montagne-rouge@outlook.fr'," +
+                "'Cuisine savoyarde')");
+        executeCommand("INSERT INTO EstCategorieDe VALUES" +
+                "('le-dragon-bleu@sushi.jp'," +
+                "'Cuisine asiatique')");
+        executeCommand("INSERT INTO EstCategorieDe VALUES" +
+                "('old-el-paso@wrap.mex'," +
+                "'Cuisine mexicaine')");
+        executeCommand("INSERT INTO EstCategorieDe VALUES" +
+                "('kssoulet@merguez.fr'," +
+                "'Cuisine métropolitaine')");
+        executeCommand("INSERT INTO EstCategorieDe VALUES" +
+                "('pizza-campus@orange.fr'," +
+                "'Cuisine italienne')");
+        // populate APourMere
+        executeCommand("INSERT INTO APourMere VALUES" +
+                "('Cuisine savoyarde'," +
+                "'Cuisine métropolitaine')");
+        executeCommand("INSERT INTO APourMere VALUES" +
+                "('Cuisine métropolitaine'," +
+                "'Cuisine française')");
+        executeCommand("INSERT INTO APourMere VALUES" +
+                "('Cuisine des antilles'," +
+                "'Cuisine française')");
+        executeCommand("INSERT INTO APourMere VALUES" +
+                "('Cuisine de la Réunion'," +
+                "'Cuisine française')");
+        executeCommand("INSERT INTO APourMere VALUES" +
+                "('Cuisine française'," +
+                "'Cuisine européenne')");
+        executeCommand("INSERT INTO APourMere VALUES" +
+                "('Cuisine italienne'," +
+                "'Cuisine européenne')");
+        // populate Horaires
+        executeCommand("INSERT INTO Horaire VALUES('Lundi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second)");
+        executeCommand("INSERT INTO Horaire VALUES('Lundi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second)");
+        executeCommand("INSERT INTO Horaire VALUES('Mardi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second)");
+        executeCommand("INSERT INTO Horaire VALUES('Mardi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second)");
+        executeCommand("INSERT INTO Horaire VALUES('Mercredi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second)");
+        executeCommand("INSERT INTO Horaire VALUES('Mercredi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second)");
+        executeCommand("INSERT INTO Horaire VALUES('Jeudi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second)");
+        executeCommand("INSERT INTO Horaire VALUES('Jeudi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second)");
+        executeCommand("INSERT INTO Horaire VALUES('Vendredi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second)");
+        executeCommand("INSERT INTO Horaire VALUES('Vendredi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second)");
+        executeCommand("INSERT INTO Horaire VALUES('Samedi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second)");
+        executeCommand("INSERT INTO Horaire VALUES('Samedi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second)");
+        // populate PossedeHoraires
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Lundi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'montagne-rouge@outlook.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Lundi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'montagne-rouge@outlook.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mardi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'montagne-rouge@outlook.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mardi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'montagne-rouge@outlook.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mercredi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'montagne-rouge@outlook.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mercredi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'montagne-rouge@outlook.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Vendredi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'montagne-rouge@outlook.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Vendredi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'montagne-rouge@outlook.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Samedi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'montagne-rouge@outlook.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Samedi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'montagne-rouge@outlook.fr')");
 
-        // TODO populate APourMere
-        // TODO populate Horaires
-        // TODO populate PossedeHoraires
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Lundi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'le-dragon-bleu@sushi.jp')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Lundi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'le-dragon-bleu@sushi.jp')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mardi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'le-dragon-bleu@sushi.jp')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mardi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'le-dragon-bleu@sushi.jp')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mercredi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'le-dragon-bleu@sushi.jp')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mercredi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'le-dragon-bleu@sushi.jp')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Jeudi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'le-dragon-bleu@sushi.jp')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Jeudi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'le-dragon-bleu@sushi.jp')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Samedi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'le-dragon-bleu@sushi.jp')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Samedi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'le-dragon-bleu@sushi.jp')");
+
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Lundi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'old-el-paso@wrap.mex')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Lundi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'old-el-paso@wrap.mex')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mercredi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'old-el-paso@wrap.mex')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mercredi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'old-el-paso@wrap.mex')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Jeudi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'old-el-paso@wrap.mex')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Jeudi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'old-el-paso@wrap.mex')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Vendredi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'old-el-paso@wrap.mex')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Vendredi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'old-el-paso@wrap.mex')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Samedi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'old-el-paso@wrap.mex')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Samedi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'old-el-paso@wrap.mex')");
+
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Lundi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'kssoulet@merguez.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Lundi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'kssoulet@merguez.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mardi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'kssoulet@merguez.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mardi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'kssoulet@merguez.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Jeudi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'kssoulet@merguez.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Jeudi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'kssoulet@merguez.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Vendredi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'kssoulet@merguez.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Vendredi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'kssoulet@merguez.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Samedi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'kssoulet@merguez.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Samedi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'kssoulet@merguez.fr')");
+
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Lundi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'pizza-campus@orange.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Lundi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'pizza-campus@orange.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mardi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'pizza-campus@orange.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mardi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'pizza-campus@orange.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mercredi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'pizza-campus@orange.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Mercredi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'pizza-campus@orange.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Jeudi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'pizza-campus@orange.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Jeudi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'pizza-campus@orange.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Vendredi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'pizza-campus@orange.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Vendredi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'pizza-campus@orange.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Samedi', interval '0 11:30:00' day(0) to second, interval '0 15:00:00' day(0) to second, 'pizza-campus@orange.fr')");
+        executeCommand("INSERT INTO PossedeHoraires VALUES('Samedi', interval '0 18:30:00' day(0) to second, interval '0 22:00:00' day(0) to second, 'pizza-campus@orange.fr')");
         // TODO populate Plat
         // TODO populate FaitPartieDe
         // TODO populate Allergene
