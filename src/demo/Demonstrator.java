@@ -1,7 +1,5 @@
 package demo;
 
-import javax.xml.crypto.Data;
-
 public class Demonstrator {
 
 	public static void main(String[] args) {
@@ -9,6 +7,7 @@ public class Demonstrator {
 		Database.connection();
 		Display.helper();
 		Database.createTables();
+		Database.populate();
 		Database.deleteTables();
 
 		Console.init();

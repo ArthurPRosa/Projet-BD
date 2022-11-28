@@ -1,5 +1,7 @@
 package tables;
 
+import java.text.ParseException;
+
 import demo.Console;
 
 public class Commande {
@@ -7,7 +9,7 @@ public class Commande {
     private String heureCommande;
     private int idCompte;
     private String emailRest;
-    private typeCommande typeComm;
+    private TypeCommande typeComm;
     private int prixCommande;
     private statutCommande statut;
     private String adrLivraison = null;
@@ -27,22 +29,22 @@ public class Commande {
         // TODO comment avoir le prix de la commande ?
         System.out.println("Quel est le type de commande ?");
         int i = 0;
-        for (typeCommande tc : typeCommande.values()) {
+        for (TypeCommande tc : TypeCommande.values()) {
             System.out.println(i + "> " + tc.toString());
             i++;
         }
-        typeCommande s = typeCommande.valueOf(Console.read());
+        TypeCommande s = Console.readWithParse(null, TypeCommande::parse);
         Commande commande = new Commande().heureCommande(Console.read("Entrez l'heure de la commande :"))
                 .dateCommande(Console.read("Entrez la date de la commande : "))
                 .idCompte(Console.readWithParse("Entrez l'id du compte qui passe la commande : ", Integer::parseInt))
                 .emailRest(Console.read("Entrez l'email du restaurant chez qui passer la commande :"))
                 .typeComm(s)
                 .statut(statutCommande.ATTENTE);
-        if (s == typeCommande.LIVRAISON) {
+        if (s == TypeCommande.LIVRAISON) {
             commande.adrLivraison(Console.read("Entrez l'adresse de livraison :"))
                     .infoLivreur(Console.read("Entrez les informations pour le livreur :"))
                     .hLivraison(Console.read("Entrez l'heure de la livraison"));
-        } else if (s == typeCommande.SUR_PLACE) {
+        } else if (s == TypeCommande.SUR_PLACE) {
             commande.nbPersonnes(Console.readWithParse("Entrez le nombre de places à réserver :", Integer::parseInt))
                     .hArrivee(Console.read("Entrez la date d'arrivée :"));
         }
@@ -73,7 +75,7 @@ public class Commande {
         return this;
     }
 
-    public Commande typeComm(typeCommande typeComm) {
+    public Commande typeComm(TypeCommande typeComm) {
         this.typeComm = typeComm;
         return this;
     }
@@ -84,35 +86,35 @@ public class Commande {
     }
 
     public Commande adrLivraison(String adrLivraison) {
-        if (this.typeComm == typeCommande.LIVRAISON) {
+        if (this.typeComm == TypeCommande.LIVRAISON) {
             this.adrLivraison = adrLivraison;
         }
         return this;
     }
 
     public Commande infoLivreur(String infoLivreur) {
-        if (this.typeComm == typeCommande.LIVRAISON) {
+        if (this.typeComm == TypeCommande.LIVRAISON) {
             this.infoLivreur = infoLivreur;
         }
         return this;
     }
 
     public Commande hLivraison(String hLivraison) {
-        if (this.typeComm == typeCommande.LIVRAISON) {
+        if (this.typeComm == TypeCommande.LIVRAISON) {
             this.hLivraison = hLivraison;
         }
         return this;
     }
 
     public Commande nbPersonnes(int nbPersonnes) {
-        if (this.typeComm == typeCommande.SUR_PLACE) {
+        if (this.typeComm == TypeCommande.SUR_PLACE) {
             this.nbPersonnes = nbPersonnes;
         }
         return this;
     }
 
     public Commande hArrivee(String hArrivee) {
-        if (this.typeComm == typeCommande.SUR_PLACE) {
+        if (this.typeComm == TypeCommande.SUR_PLACE) {
             this.hArrivee = hArrivee;
         }
         return this;
@@ -136,12 +138,30 @@ public class Commande {
                 '}';
     }
 
-    public enum typeCommande {
-        LIVRAISON, A_EMPORTER, SUR_PLACE
+    public enum TypeCommande {
+        LIVRAISON, A_EMPORTER, SUR_PLACE;
+        public static TypeCommande parse(String s) throws ParseException{
+            try {
+                return TypeCommande.valueOf(s);
+            } catch (IllegalArgumentException e) {
+                for (TypeCommande j : TypeCommande.values()) {
+                    if (s.equalsIgnoreCase(j.name()))
+                        return j;
+                }
+                try {
+                    int index = Integer.parseInt(s);
+                    if (index >= 0 && index < TypeCommande.values().length)
+                        return TypeCommande.values()[index];
+                } catch (NumberFormatException e2) {
+                }
+            }
+            System.out.println("Veuillez rentrer un jour valide");
+            throw new ParseException(s, 0);
+        }
     }
 
     public enum statutCommande {
-        ATTENTE, VALIDEE, LIVRAISON, DISPONIBLE, ANNULEECLIENT, ANNULEEREST
+        ATTENTE, VALIDEE, LIVRAISON, DISPONIBLE, ANNULEECLIENT, ANNULEEREST;
     }
 
 }

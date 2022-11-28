@@ -1,6 +1,5 @@
 package demo;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 
 /**
@@ -37,8 +36,7 @@ public class Database {
         createTable("CREATE TABLE Categorie (\n" +
                         "nomCategorie VARCHAR(100)," +
                         "PRIMARY KEY(nomCategorie)" +
-                        ")")
-                ;
+                        ")");
         createTable
                 ("CREATE TABLE APourMere(" +
                         "nomCategorieFille VARCHAR(100), " +
@@ -52,7 +50,6 @@ public class Database {
                         "adresseRest VARCHAR(100)," +
                         "presentation VARCHAR(500)," +
                         "capaciteMax INT," +
-                        "noteRest INT," +
                         "PRIMARY KEY (emailRest)" +
                         ")");
         createTable
@@ -117,7 +114,9 @@ public class Database {
                         "emailRest VARCHAR(320)," +
                         "dateEval DATE," +
                         "heureEval TIMESTAMP," +
-                        "FOREIGN KEY (dateEval, heureEval) REFERENCES Eval (dateEval, heureEval)," +
+                        "avis VARCHAR(500)," +
+                        "note INT," +
+                        "FOREIGN KEY (dateEval, heureEval, avis, note) REFERENCES Eval (dateEval, heureEval, avis, note)," +
                         "FOREIGN KEY (dateCommande, heureCommande) REFERENCES Commande (dateCommande, heureCommande)," +
                         "FOREIGN KEY (idCompte) REFERENCES Compte (idCompte)," +
                         "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest))");
@@ -152,32 +151,40 @@ public class Database {
                         "nomPlat VARCHAR(100)," +
                         "prix INT," +
                         "descPlat VARCHAR(500)," +
-                        "PRIMARY KEY (nomPlat),cd" +
+                        "PRIMARY KEY (nomPlat)," +
                         "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest))");
+        createTable(
+                "CREATE TABLE Allergene (" +
+                        "nomAllergene VARCHAR(100) PRIMARY KEY" +
+                        ")"
+        );
         createTable
                 ("CREATE TABLE FaitPartieDe (" +
-                        "dateCommande DATE REFERENCES Commande (dateCommande)," +
-                        "heureCommande TIMESTAMP REFERENCES Commande (heureCommande)," +
-                        "idCompte INT REFERENCES Compte (idCompte)," +
-                        "emailRest VARCHAR(320) REFERENCES Restaurant (emailRest)," +
-                        "nomPlat VARCHAR(100) REFERENCES Plat (nomPlat)," +
+                        "dateCommande DATE," +
+                        "heureCommande TIMESTAMP," +
+                        "idCompte INT," +
+                        "emailRest VARCHAR(320)," +
+                        "nomPlat VARCHAR(100)," +
                         "quantiteCommandee INT," +
-                        "PRIMARY KEY (dateCommande, heureCommande, idCompte, emailRest, nomPlat)" +
-                        ")");
+                        "FOREIGN KEY (dateCommande, heureCommande) REFERENCES Commande (dateCommande, heureCommande)," +
+                        "FOREIGN KEY (idCompte) REFERENCES Compte (idCompte)," +
+                        "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest)," +
+                        "FOREIGN KEY (nomPlat) REFERENCES Plat (nomPlat))");
 
         createTable
                 ("CREATE TABLE Contient (" +
-                        "emailRest VARCHAR(320) REFERENCES Restaurant (emailRest)," +
-                        "nomPlat VARCHAR(100) REFERENCES Plat (nomPlat)," +
+                        "emailRest VARCHAR(320)," +
+                        "nomPlat VARCHAR(100)," +
                         "nomAllergene VARCHAR(100)," +
-                        "PRIMARY KEY (nomAllergene)" +
-                        ")");
+                        "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest)," +
+                        "FOREIGN KEY (nomPlat) REFERENCES Plat (nomPlat)," +
+                        "FOREIGN KEY (nomAllergene) REFERENCES Allergene (nomAllergene))");
     }
 
     public static void createTable(String query) {
         try {
-            PreparedStatement stmt = Database.getDb().prepareStatement(query);
-            stmt.executeQuery();
+            Statement stmt = Database.getDb().createStatement();
+            stmt.executeQuery(query);
             stmt.close();
             System.out.println("Created new table " + query.split(" ")[2]);
         } catch (SQLException e) {
@@ -189,6 +196,7 @@ public class Database {
     public static void deleteTables() {
         dropTable("Contient");
         dropTable("FaitPartieDe");
+        dropTable("Allergene");
         dropTable("Plat");
         dropTable("PossedeHoraires");
         dropTable("Horaire");
@@ -208,10 +216,33 @@ public class Database {
 
     public static void dropTable(String tableName) {
         try {
-            PreparedStatement stmt = Database.getDb().prepareStatement("DROP TABLE " + tableName);
-            stmt.executeQuery();
+            Statement stmt = Database.getDb().createStatement();
+            stmt.executeQuery("DROP TABLE " + tableName);
             stmt.close();
             System.out.println("Dropped table " + tableName);
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
+    }
+
+    public static void populate() {
+        executeCommand("INSERT INTO Categorie VALUES ('Cuisine savoyarde')");
+        executeCommand("INSERT INTO Restaurant VALUES " +
+                "('montagne-rouge@outlook.fr'," +
+                " 'La Montagne Rouge', " +
+                "0169325643, " +
+                "'3 rue de la Montagne', " +
+                "'Un bon restaurant de la montagne.', " +
+                "100)");
+    }
+
+    public static void executeCommand(String query) {
+        try {
+            Statement stmt = Database.getDb().createStatement();
+            stmt.executeQuery(query);
+            stmt.close();
+            System.out.println("Successfully executed " + query.split(" ")[0] + " command");
         } catch (SQLException e) {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
