@@ -404,7 +404,7 @@ public class Database {
         // populate Compte et Client
         int idCompte = 0;
         executeCommand("INSERT INTO Compte VALUES (" + idCompte + ")");
-        executeCommand("INSERT INTO Client VALUES ('michel@mich.fr', 'pastis01', 'Sauzin', 'Michel','3 allée des Pétunias, Saint Martin d Heres'," + idCompte++ + ")");
+        executeCommand("INSERT INTO Client VALUES ('michel@mich.fr', 'pastis51', 'Sauzin', 'Michel','3 allée des Pétunias, Saint Martin d Heres'," + idCompte++ + ")");
         executeCommand("INSERT INTO Compte VALUES (" + idCompte + ")");
         executeCommand("INSERT INTO Client VALUES ('sarah@outlook.fr', 'sarahr0127', 'Rossignol', 'Sarah','8 rue de la Mairie, Brest'," + idCompte++ + ")");
         executeCommand("INSERT INTO Compte VALUES (" + idCompte + ")");

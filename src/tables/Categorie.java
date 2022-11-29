@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import demo.Console;
-import javax.swing.*;
 
 public class Categorie {
     private String nomCat;
@@ -35,13 +34,11 @@ public class Categorie {
     }
 
     public static void parseList() {
-        // TODO afficher la liste des catégories depuis la bdd
+        // afficher la liste des catégories depuis la bdd
         try {
             HashSet<String> DiffCat = new HashSet<String>();
             PreparedStatement stmt = demo.Database.getDb().prepareStatement
-                    ("SELECT * " +
-                            "FROM rest " +
-                            "WHERE email LIKE ?");
+                    ("SELECT * FROM Restaurant WHERE email LIKE ?");
             System.out.println("Email du restaurant : ");
             Scanner scan = new Scanner(System.in);
             String email = scan.next();
@@ -49,6 +46,7 @@ public class Categorie {
 
             stmt.setString(1, email);
             ResultSet res = stmt.executeQuery();
+            stmt.close();
             while (res.next()) {
                 for (int i = 0; i < 1; i++) {
                     String nomCat = res.getString(i);
