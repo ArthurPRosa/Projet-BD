@@ -23,6 +23,7 @@ public class Client {
                 ", nomClient='" + nomClient + '\'' +
                 ", prenomClient='" + prenomClient + '\'' +
                 ", adresseClient='" + adresseClient + '\'' +
+                ", idCompte='" + idCompte + '\'' +
                 '}';
     }
 
@@ -31,7 +32,27 @@ public class Client {
     }
 
     public static void parseList() {
-        // TODO lister les clients depuis la bdd
+        // lister les clients depuis la bdd
+        try {
+            PreparedStatement stmt = Database.getDb().prepareStatement
+                    ("SELECT * " +
+                            "FROM Client R,  Compte C " +
+                            "WHERE R.idCompte = C.idCompte");
+            ResultSet rset = stmt.executeQuery();
+            System.out.println("informations restau");
+            while (rset.next()) {
+                Client client = new Client(rset.getString(1));
+                client.mdp = rset.getString(2);
+                client.nomClient = rset.getString(3);
+                client.prenomClient = rset.getString(4);
+                client.adresseClient = rset.getString(5);
+                idCompte = rset.getInt(6);
+                System.out.println(client);
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
     }
 
     /*  */

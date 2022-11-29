@@ -24,7 +24,7 @@ public class Restaurant {
     }
 
     public static void parseList() {
-        // TODO récupérer les restaurants depuis la bdd et les afficher
+        // récupérer les restaurants depuis la bdd et les afficher
         try {
             PreparedStatement stmt = Database.getDb().prepareStatement
                     ("SELECT * " +
