@@ -59,6 +59,7 @@ public class Categorie {
                             DiffCat.add(nomCat);
                             continue;
                         }
+
                         break;
                     }
                 }
