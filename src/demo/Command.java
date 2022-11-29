@@ -1,23 +1,16 @@
 package demo;
 
+import tables.*;
+
 import java.util.Arrays;
 import java.util.LinkedList;
-
-import tables.Allergene;
-import tables.Categorie;
-import tables.Client;
-import tables.Commande;
-import tables.Evaluation;
-import tables.Horaires;
-import tables.Plat;
-import tables.Restaurant;
 
 /**
  * Class handling commands passed onto the terminal
  */
 public class Command {
 	private static LinkedList<String> commands = new LinkedList<>(
-			Arrays.asList("list", "add", "del", "exit", "quit", "help", "order"));
+			Arrays.asList("help", "list", "add", "del", "order", "populate", "create", "drop","exit", "quit"));
 
 	public static void parseCommand(String cmd) {
 		String[] args = cmd.split(" ");
@@ -39,30 +32,43 @@ public class Command {
 				break;
 			case "add":
 				switch (args[1]) {
-					case "rest" -> Restaurant.parseAdd();
-					case "sched" -> Horaires.parseAdd();
-					case "dish" -> Plat.parseAdd();
-					case "aller" -> Allergene.parseAdd();
-					case "cat" -> Categorie.parseAdd();
-					case "users" -> Client.parseAdd();
+//					case "rest" -> Restaurant.parseAdd();
+//					case "sched" -> Horaires.parseAdd();
+//					case "dish" -> Plat.parseAdd();
+//					case "aller" -> Allergene.parseAdd();
+//					case "cat" -> Categorie.parseAdd();
+//					case "users" -> Client.parseAdd();
 					case "order" -> Commande.parseAdd();
 					case "rating" -> Evaluation.parseAdd();
 				}
 				break;
 			case "del":
 				switch (args[1]) {
-					case "rest" -> Restaurant.parseDel();
-					case "sched" -> Horaires.parseDel();
-					case "dish" -> Plat.parseDel();
-					case "aller" -> Allergene.parseDel();
-					case "cat" -> Categorie.parseDel();
-					case "users" -> Client.parseDel();
+//					case "rest" -> Restaurant.parseDel();
+//					case "sched" -> Horaires.parseDel();
+//					case "dish" -> Plat.parseDel();
+//					case "aller" -> Allergene.parseDel();
+//					case "cat" -> Categorie.parseDel();
+//					case "users" -> Client.parseDel();
 					case "order" -> Commande.parseDel();
 					case "rating" -> Evaluation.parseDel();
 				}
 				break;
 			case "order":
 				Commande.parseAdd();
+				break;
+			case "log":
+				Client.parseConnexion();
+				break;
+			case "populate":
+				Database.populate();
+				break;
+			case "create":
+				Database.createTables();
+				break;
+			case "drop":
+				Database.deleteTables();
+				break;
 			// exit command is treating inside demonstrator
 		}
 	}

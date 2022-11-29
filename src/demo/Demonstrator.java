@@ -6,9 +6,6 @@ public class Demonstrator {
 		Display.presentation();
 		Database.connection();
 		Display.helper();
-		Database.createTables();
-		Database.populate();
-		Database.deleteTables();
 
 		Console.init();
 
