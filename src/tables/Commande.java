@@ -25,18 +25,19 @@ public class Commande {
         // TODO affichage par statut
     }
 
-    public static void parseAdd() {
-        // TODO comment avoir le prix de la commande ?
+    public static void parseOrder() {
+        TypeCommande s = Console.readWithParse(null, TypeCommande::parse);
+        Commande commande = new Commande().idCompte(Client.getLoggedInId());
+
         System.out.println("Quel est le type de commande ?");
         int i = 0;
         for (TypeCommande tc : TypeCommande.values()) {
             System.out.println(i + "> " + tc.toString());
             i++;
         }
-        TypeCommande s = Console.readWithParse(null, TypeCommande::parse);
-        Commande commande = new Commande().heureCommande(Console.read("Entrez l'heure de la commande :"))
+
+        commande.heureCommande(Console.read("Entrez l'heure de la commande :"))
                 .dateCommande(Console.read("Entrez la date de la commande : "))
-                .idCompte(Console.readWithParse("Entrez l'id du compte qui passe la commande : ", Integer::parseInt))
                 .emailRest(Console.read("Entrez l'email du restaurant chez qui passer la commande :"))
                 .typeComm(s)
                 .statut(statutCommande.ATTENTE);
@@ -45,10 +46,12 @@ public class Commande {
                     .infoLivreur(Console.read("Entrez les informations pour le livreur :"))
                     .hLivraison(Console.read("Entrez l'heure de la livraison"));
         } else if (s == TypeCommande.SUR_PLACE) {
-            commande.nbPersonnes(Console.readWithParse("Entrez le nombre de places à réserver :", Integer::parseInt))
+            commande.nbPersonnes(
+                    Console.readWithParse("Entrez le nombre de places à réserver :", Integer::parseInt))
                     .hArrivee(Console.read("Entrez la date d'arrivée :"));
         }
         System.out.println(commande);
+
     }
 
     public static void parseDel() {
@@ -140,7 +143,8 @@ public class Commande {
 
     public enum TypeCommande {
         LIVRAISON, A_EMPORTER, SUR_PLACE;
-        public static TypeCommande parse(String s) throws ParseException{
+
+        public static TypeCommande parse(String s) throws ParseException {
             try {
                 return TypeCommande.valueOf(s);
             } catch (IllegalArgumentException e) {

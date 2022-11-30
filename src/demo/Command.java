@@ -38,7 +38,7 @@ public class Command {
 //					case "aller" -> Allergene.parseAdd();
 //					case "cat" -> Categorie.parseAdd();
 //					case "users" -> Client.parseAdd();
-					case "order" -> Commande.parseAdd();
+					case "order" -> Commande.parseOrder();
 					case "rating" -> Evaluation.parseAdd();
 				}
 				break;
@@ -55,7 +55,7 @@ public class Command {
 				}
 				break;
 			case "order":
-				Commande.parseAdd();
+				Commande.parseOrder();
 				break;
 			case "log":
 				Client.parseConnexion();

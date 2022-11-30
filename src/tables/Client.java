@@ -13,7 +13,7 @@ public class Client {
     private String nomClient;
     private String prenomClient;
     private String adresseClient;
-    private static int idCompte = 0;
+    private static int currentIdCompte = -1;
 
     @Override
     public String toString() {
@@ -23,7 +23,7 @@ public class Client {
                 ", nomClient='" + nomClient + '\'' +
                 ", prenomClient='" + prenomClient + '\'' +
                 ", adresseClient='" + adresseClient + '\'' +
-                ", idCompte='" + idCompte + '\'' +
+                ", idCompte='" + currentIdCompte + '\'' +
                 '}';
     }
 
@@ -34,10 +34,9 @@ public class Client {
     public static void parseList() {
         // lister les clients depuis la bdd
         try {
-            PreparedStatement stmt = Database.getDb().prepareStatement
-                    ("SELECT * " +
-                            "FROM Client R,  Compte C " +
-                            "WHERE R.idCompte = C.idCompte");
+            PreparedStatement stmt = Database.getDb().prepareStatement("SELECT * " +
+                    "FROM Client R,  Compte C " +
+                    "WHERE R.idCompte = C.idCompte");
             ResultSet rset = stmt.executeQuery();
             System.out.println("informations restau");
             while (rset.next()) {
@@ -46,7 +45,7 @@ public class Client {
                 client.nomClient = rset.getString(3);
                 client.prenomClient = rset.getString(4);
                 client.adresseClient = rset.getString(5);
-                idCompte = rset.getInt(6);
+                currentIdCompte = rset.getInt(6);
                 System.out.println(client);
             }
         } catch (SQLException e) {
@@ -56,8 +55,7 @@ public class Client {
     }
 
     /*  */
-    public static void parseConnexion()
-    {
+    public static void parseConnexion() {
         String adresseMail = Console.read("Entrez votre adresse mail : ");
         String motDePasse = Console.read("Entrez votre MDP : ");
 
@@ -67,13 +65,17 @@ public class Client {
             stmt.setString(1, adresseMail);
             ResultSet rset = stmt.executeQuery();
 
-            if(rset.next())
-            {
-               if(rset.getString("mdp").equals(motDePasse))
-               {
-                   System.out.println("Vous êtes connectés");
-                   return;
-               }
+            if (rset.next()) {
+                if (rset.getString("mdp").equals(motDePasse)) {
+                    System.out.println("Vous êtes connectés");
+                    PreparedStatement getId = Database.getDb()
+                            .prepareStatement("SELECT idCompte FROM Client WHERE emailClient = ?");
+                    getId.setString(1, adresseMail);
+                    rset = stmt.executeQuery();
+                    rset.next();
+                    currentIdCompte = rset.getInt(1);
+                    return;
+                }
             }
             stmt.close();
             System.out.println("Connexion refusée");
@@ -89,12 +91,15 @@ public class Client {
                 .nomClient(Console.read("Entrez le nom du client : "))
                 .prenomClient(Console.read("Entrez le prénom du client : "))
                 .adresseClient(Console.read("Entrez l'adresse du client : "));
-        idCompte++;
     }
 
     public static void parseDel() {
         // TODO lister les clients
         // TODO laisser l'utilisateur en supprimer un
+    }
+
+    public static int getLoggedInId() {
+        return currentIdCompte;
     }
 
     public Client mdp(String mdp) {
