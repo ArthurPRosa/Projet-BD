@@ -17,8 +17,6 @@ public class Restaurant {
     private static String presentation;
     private static int capaciteMax;
     private double noteRest;
-    private static HashSet<Categorie> nomCategories = new HashSet<Categorie>();
-
     public Restaurant(String email) {
         emailRest = email;
     }
@@ -127,16 +125,6 @@ public class Restaurant {
         return this;
     }
 
-    public Restaurant catRestau(ArrayList<Categorie> catRestau) {
-        nomCategories.addAll(catRestau);
-        return this;
-    }
-
-    public Restaurant catRestau(Categorie catRestau) {
-        nomCategories.add(catRestau);
-        return this;
-    }
-
     public Restaurant nbPlace(int nbPlace) {
         capaciteMax = nbPlace;
         return this;
@@ -162,7 +150,6 @@ public class Restaurant {
                 ", presentation='" + presentation + '\'' +
                 ", capaciteMax=" + capaciteMax +
                 ", noteRest=" + noteRest +
-                ", nomCategories=" + nomCategories +
                 '}';
     }
 }
