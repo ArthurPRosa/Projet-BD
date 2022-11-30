@@ -36,7 +36,6 @@ public class Categorie {
     public static void parseList() {
         // afficher la liste des catégories depuis la bdd
         try {
-            HashSet<String> DiffCat = new HashSet<String>();
             PreparedStatement stmt = demo.Database.getDb().prepareStatement
                     ("SELECT nomCategorie FROM EstCategorieDe WHERE emailRest LIKE ?");
             String emailRest = Console.read("Entrez l'email du restaurant : ");
