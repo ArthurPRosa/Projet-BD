@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import demo.Console;
-import javax.swing.*;
 
 public class Categorie {
     private String nomCat;
@@ -35,39 +34,43 @@ public class Categorie {
     }
 
     public static void parseList() {
-        // TODO afficher la liste des catégories depuis la bdd
+        // afficher la liste des catégories depuis la bdd
         try {
-            HashSet<String> DiffCat = new HashSet<String>();
             PreparedStatement stmt = demo.Database.getDb().prepareStatement
-                    ("SELECT * " +
-                            "FROM rest " +
-                            "WHERE email LIKE ?");
-            System.out.println("Email du restaurant : ");
-            Scanner scan = new Scanner(System.in);
-            String email = scan.next();
-            scan.nextLine();
-
-            stmt.setString(1, email);
-            ResultSet res = stmt.executeQuery();
-            while (res.next()) {
-                for (int i = 0; i < 1; i++) {
-                    String nomCat = res.getString(i);
-                    while (!globalCategories.get(nomCat).equals(nomCat)) {
-                        if (!DiffCat.contains(nomCat)) {
-                            System.out.println(nomCat);
-                            nomCat = globalCategories.get(nomCat);
-                            DiffCat.add(nomCat);
-                            continue;
-                        }
-
-                        break;
-                    }
-                }
+                    ("SELECT nomCategorie FROM EstCategorieDe WHERE emailRest LIKE ?");
+            String emailRest = Console.read("Entrez l'email du restaurant : ");
+            stmt.setString(1, emailRest);
+            ResultSet rset = stmt.executeQuery();
+            while (rset.next()) {
+                String nomCategorieFille = rset.getString(1);
+                System.out.println(nomCategorieFille);
+                affMere(nomCategorieFille);
             }
+            stmt.close();
         } catch (SQLException e) {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
         }
+    }
+
+    public static void affMere(String nomCategorieFille) {
+        try {
+            PreparedStatement stmt = demo.Database.getDb().prepareStatement("SELECT nomCategorieMere FROM APourMere WHERE nomCategorieFille LIKE ?");
+            stmt.setString(1, nomCategorieFille);
+            ResultSet rset = stmt.executeQuery();
+            while (rset.next()) {
+                String nomCategorieMere = rset.getString(1);
+                System.out.println(nomCategorieMere);
+                affMere(nomCategorieMere);
+            }
+            stmt.close();
+
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
+
+
     }
 
     public static void parseAdd() {

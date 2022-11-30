@@ -57,7 +57,6 @@ public class Client {
     /*  */
     public static void parseConnexion() {
         String adresseMail = Console.read("Entrez votre adresse mail : ");
-        String motDePasse = Console.read("Entrez votre MDP : ");
 
         /* ------- */
         try {
@@ -66,8 +65,16 @@ public class Client {
             ResultSet rset = stmt.executeQuery();
 
             if (rset.next()) {
-                if (rset.getString("mdp").equals(motDePasse)) {
+                String password = rset.getString(1);
+                if (password == "") {
+                    System.out.println("Cet utilisateur n'existe pas");
+                    stmt.close();
+                    return;
+                }
+                String motDePasse = Console.read("Entrez votre MDP : ");
+                if (password.equals(motDePasse)) {
                     System.out.println("Vous êtes connectés");
+                    stmt.close();
                     PreparedStatement getId = Database.getDb()
                             .prepareStatement("SELECT idCompte FROM Client WHERE emailClient = ?");
                     getId.setString(1, adresseMail);
