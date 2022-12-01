@@ -4,6 +4,10 @@
 ## Catégories
 - [ ] Parcours des catégories et sous-catégories, ou des catégories recommandées, au choix. Les  restaurants des catégories seront affichés par ordre décroissant de leur note et par ordre alphabétique (un seul tri multicritère).
 
+`list rest` : liste tous les attributs d'un restaurant (+ note + catégories)
+`list rest all` : `liste rest` pour tous les restaurants
+`list cat` : liste les catégories avec les restaurants dedans
+
 ## Restaurant
 - [x] Consultation de la fiche complète de chacun des restaurants sélectionnés
 - [ ] Possibilité de filtrer les résultats par jour/heure d’ouverture des restaurants (pas besoin de gérer l'heure de livraison estimée ni les vacances et jours fériés).
