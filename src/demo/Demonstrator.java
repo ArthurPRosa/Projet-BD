@@ -1,5 +1,8 @@
 package demo;
 
+/**
+ * Main class leading the action
+ */
 public class Demonstrator {
 
 	public static void main(String[] args) {

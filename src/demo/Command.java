@@ -6,22 +6,21 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
- * Class handling commands passed onto the terminal
+ * Class handling commands typed in the terminal
  */
 public class Command {
 	private static LinkedList<String> commands = new LinkedList<>(
-			Arrays.asList("help", "list", "add", "del", "order", "populate", "create", "drop","exit", "quit"));
+			Arrays.asList("help", "list", "add", "del", "order", "populate", "create", "drop", "forget", "exit", "quit"));
 
 	public static void parseCommand(String cmd) {
 		String[] args = cmd.split(" ");
 		switch (args[0]) {
 			case "help":
-				Display.displayHelp(commands);
+				Display.displayCommandList(commands);
 				break;
 			case "list":
 				switch (args[1]) {
 					case "rest" -> Restaurant.parseList();
-					case "sched" -> Horaires.parseList();
 					case "dish" -> Plat.parseList();
 					case "aller" -> Allergene.parseList();
 					case "cat" -> Categorie.parseList();
@@ -31,25 +30,12 @@ public class Command {
 				}
 				break;
 			case "add":
-				switch (args[1]) {
-//					case "rest" -> Restaurant.parseAdd();
-//					case "sched" -> Horaires.parseAdd();
-//					case "dish" -> Plat.parseAdd();
-//					case "aller" -> Allergene.parseAdd();
-//					case "cat" -> Categorie.parseAdd();
-//					case "users" -> Client.parseAdd();
-					case "order" -> Commande.parseOrder();
-					case "rating" -> Evaluation.parseAdd();
+				if ("rating".equals(args[1])) {
+					Evaluation.parseAdd();
 				}
 				break;
 			case "del":
 				switch (args[1]) {
-//					case "rest" -> Restaurant.parseDel();
-//					case "sched" -> Horaires.parseDel();
-//					case "dish" -> Plat.parseDel();
-//					case "aller" -> Allergene.parseDel();
-//					case "cat" -> Categorie.parseDel();
-//					case "users" -> Client.parseDel();
 					case "order" -> Commande.parseDel();
 					case "rating" -> Evaluation.parseDel();
 				}
@@ -69,38 +55,12 @@ public class Command {
 			case "drop":
 				Database.deleteTables();
 				break;
+			case "forget":
+				Client.forget();
+				break;
 			// exit command is treating inside demonstrator
 		}
 	}
-
-	/*
-	 * private static void showHelp(String[] args) {
-	 * if (args == null || args.length == 1)
-	 * demo.BD.demo.Display.displayHelp(commands);
-	 * else if (args[1].startsWith("resta")) { // restaurant
-	 * System.out.println("Liste des commandes disponibles pour RESTAURANT:");
-	 * System.out.println();
-	 * System.out.println(
-	 * "\tCREATE <mail> \"<nom>\" <telephone> \"<adresse>\" <horaires midi,soir> <places> \"<presentation>\" <livraison> <a emporter> <sur place>"
-	 * );
-	 * System.out.println("\t\tmail : restau@example.com");
-	 * System.out.println("\t\tnom : \"Au restaurant grenoblois\"");
-	 * System.out.println(
-	 * "\t\ttéléphone : à rentrer sans espaces et possiblement avec indicateur, 0476123456 ou +33476123456."
-	 * );
-	 * System.out.println(
-	 * "\t\thoraires sous la forme hh:mm-hh:mm,hh:mm-hh:mm, avec le 2e créneau plus tard que le premier et les créneaux dans le bon sens (l'heure de départ est plus petite que l'heure d'arrivée)."
-	 * );
-	 * System.out.
-	 * println("\t\tplaces : nombre de places assises du restaurant, un nombre.");
-	 * System.out.
-	 * println("\t\tpresentation : texte de présentation entre guillemets.");
-	 * System.out.println(
-	 * "\t\tlivraison  a emporter  sur place : true ou false (ou 0 ou 1) pour chaque méthode, true indiquant que le restaurant peut fournir ce service."
-	 * );
-	 * }
-	 * }
-	 */
 
 	private static void apply() {
 		// TODO

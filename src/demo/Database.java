@@ -6,12 +6,18 @@ import java.sql.*;
  * Class handling databases connections, commits, and requests
  */
 public class Database {
+    /**
+     * @return a java.sql.Connection object if the connection with the database succeeded
+     */
     public static Connection getDb() {
         return db;
     }
 
     private static java.sql.Connection db;
 
+    /**
+     * Connection to the database, logins hardcoded, requiring VPN connection on top
+     */
     public static void connection() {
         try {
             System.out.println("Importation du driver...");
@@ -24,6 +30,9 @@ public class Database {
         }
     }
 
+    /**
+     * Terminate the connection with the database
+     */
     public static void closeConnection() {
         try {
             db.close();
@@ -32,6 +41,9 @@ public class Database {
         }
     }
 
+    /**
+     * Create the tables needed by the app
+     */
     public static void createTables() {
         createTable("CREATE TABLE Categorie (\n" +
                         "nomCategorie VARCHAR(100)," +
@@ -181,6 +193,10 @@ public class Database {
                         "FOREIGN KEY (nomAllergene) REFERENCES Allergene (nomAllergene))");
     }
 
+    /**
+     * Executes a query to create a table
+     * @param query query to execute
+     */
     public static void createTable(String query) {
         try {
             Statement stmt = Database.getDb().createStatement();
@@ -193,6 +209,9 @@ public class Database {
         }
     }
 
+    /**
+     * Delete the tables used by the app
+     */
     public static void deleteTables() {
         dropTable("Contient");
         dropTable("FaitPartieDe");
@@ -213,6 +232,9 @@ public class Database {
         dropTable("Restaurant");
     }
 
+    /**
+     * @param tableName name of the table to drop
+     */
     public static void dropTable(String tableName) {
         try {
             Statement stmt = Database.getDb().createStatement();
@@ -225,6 +247,9 @@ public class Database {
         }
     }
 
+    /**
+     * Fill the database with some data
+     */
     public static void populate() {
         // populate Categorie
         executeCommand("INSERT INTO Categorie VALUES ('Cuisine asiatique')");
@@ -417,6 +442,9 @@ public class Database {
         executeCommand("INSERT INTO Client VALUES ('friedrich.nietzsche@germany.de', 'ubermensch', 'Nietzsche', 'Friedrich','10 avenue Grand Place'," + idCompte + ")");
     }
 
+    /**
+     * @param query SQL query to execute
+     */
     public static void executeCommand(String query) {
         try {
             Statement stmt = Database.getDb().createStatement();

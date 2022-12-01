@@ -12,6 +12,9 @@ import org.aesh.terminal.Connection;
 import org.aesh.terminal.tty.Signal;
 import org.aesh.terminal.utils.Config;
 
+/**
+ * Handling the I/O of the console
+ */
 public class Console implements Consumer<org.aesh.terminal.Connection> {
     private static Readline commandReadline;
     private static Readline inputReadline;
@@ -26,6 +29,9 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
         tConnection.close();
     }
 
+    /**
+     * Initialize the console
+     */
     public static void init() {
         try {
             tConnection = new TerminalConnection(new Console());
@@ -35,6 +41,9 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
         }
     }
 
+    /**
+     * Prompt for the user to type a command
+     */
     public static void prompt() {
         try {
             while (true) {
@@ -61,6 +70,10 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
         }
     }
 
+    /**
+     * Prompt the user to enter some data
+     * @return data from the user
+     */
     public static String read() {
         if (!readlineAvailable.compareAndSet(true, false))
             throw new IllegalStateException();
@@ -77,6 +90,11 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
         return lastInput;
     }
 
+    /**
+     * Writes a message on the terminal and lets the user enter some data
+     * @param prompt message to display
+     * @return data from the user
+     */
     public static String read(String prompt) {
         if (prompt != null)
             System.out.println(prompt);
@@ -95,10 +113,16 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
             connection.close();
             System.exit(0);
         });
-        // lets open the connection to the terminal using this thread
+        // let open the connection to the terminal using this thread
         connection.openNonBlocking();
     }
 
+    /**
+     * @param prompt message to display
+     * @param parser how to parse the data from the user
+     * @param <T> data type
+     * @return the data from the user, with type T
+     */
     public static <T> T readWithParse(String prompt, Parser<T> parser) {
         try {
             return parser.parse(read(prompt));
