@@ -51,6 +51,7 @@ public class Commande {
                     .hArrivee(Console.read("Entrez la date d'arrivée :"));
         }
         System.out.println(commande);
+        // TODO requete SQL pour la commande
 
     }
 

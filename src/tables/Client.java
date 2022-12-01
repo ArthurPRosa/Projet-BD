@@ -66,11 +66,6 @@ public class Client {
 
             if (rset.next()) {
                 String password = rset.getString(1);
-                if (password == "") {
-                    System.out.println("Cet utilisateur n'existe pas");
-                    stmt.close();
-                    return;
-                }
                 String motDePasse = Console.read("Entrez votre MDP : ");
                 if (password.equals(motDePasse)) {
                     System.out.println("Vous êtes connectés");
@@ -81,11 +76,14 @@ public class Client {
                     rset = stmt.executeQuery();
                     rset.next();
                     currentIdCompte = rset.getInt(1);
-                    return;
+                } else {
+                    stmt.close();
+                    System.out.println("Connexion refusée");
                 }
+            } else {
+                System.out.println("Cet utilisateur n'existe pas");
+                stmt.close();
             }
-            stmt.close();
-            System.out.println("Connexion refusée");
         } catch (SQLException e) {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);

@@ -6,8 +6,6 @@ import demo.Database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
 
 public class Restaurant {
     private static String emailRest;
@@ -85,18 +83,15 @@ public class Restaurant {
         System.out.println(rest);
         try {
             PreparedStatement stmt = Database.getDb().prepareStatement
-                    ("INSERT INTO RESTAURANT VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    ("INSERT INTO RESTAURANT VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, emailRest);
             stmt.setString(2, nomRest);
             stmt.setInt(3, telRest);
             stmt.setString(4, adresseRest);
             stmt.setString(5, presentation);
             stmt.setInt(6, capaciteMax);
-            stmt.setInt(7, 0);
-            stmt.setString(8, "Hello");
-            //stmt.setArray(8, Database.getDb().createArrayOf("VARCHAR", nomCategories.toArray()));
-
             stmt.executeQuery();
+            stmt.close();
         } catch (SQLException e) {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
@@ -135,9 +130,27 @@ public class Restaurant {
         return this;
     }
 
-    public Restaurant note() {
-        // TODO calculer la note selon les évaluations du restaurant
-        return this;
+    public float note() {
+        // calculer la note selon les évaluations du restaurant
+        int sum = 0;
+        int c = 0;
+        try {
+            PreparedStatement stmt = Database.getDb().prepareStatement("SELECT note FROM PossedeEvaluation WHERE emailRest LIKE ?");
+            stmt.setString(1, emailRest);
+            ResultSet rset = stmt.executeQuery();
+            sum = 0;
+            c = 0;
+            while (rset.next()) {
+                sum += rset.getInt(1);
+                c++;
+            }
+
+            stmt.close();
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
+        return (float) (sum / c);
     }
 
     @Override
@@ -149,7 +162,7 @@ public class Restaurant {
                 ", adresseRest='" + adresseRest + '\'' +
                 ", presentation='" + presentation + '\'' +
                 ", capaciteMax=" + capaciteMax +
-                ", noteRest=" + noteRest +
+                ", noteRest=" + note() +
                 '}';
     }
 }
