@@ -15,6 +15,19 @@ public class Client {
     private String adresseClient;
     private static int currentIdCompte = -1;
 
+    public static void forget() {
+        try {
+            PreparedStatement stmt = Database.getDb().prepareStatement("DELETE FROM Client WHERE idCompte=?");
+            stmt.setInt(1, currentIdCompte);
+            stmt.executeQuery();
+            stmt.close();
+            currentIdCompte = - 1;
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
+    }
+
     @Override
     public String toString() {
         return "Client{" +
@@ -48,6 +61,7 @@ public class Client {
                 currentIdCompte = rset.getInt(6);
                 System.out.println(client);
             }
+            stmt.close();
         } catch (SQLException e) {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
