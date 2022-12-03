@@ -126,7 +126,7 @@ public class Database {
                 "heureEval INT," +
                 "avis VARCHAR(500)," +
                 "note INT," +
-                "FOREIGN KEY (dateEval, avis, note) REFERENCES Eval (dateEval, avis, note)," +
+                "FOREIGN KEY (dateEval, heureEval, avis, note) REFERENCES Eval (dateEval, heureEval, avis, note)," +
                 "FOREIGN KEY (dateCommande) REFERENCES Commande (dateCommande)," +
                 "FOREIGN KEY (idCompte) REFERENCES Compte (idCompte)," +
                 "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest))");
