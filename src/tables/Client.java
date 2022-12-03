@@ -21,7 +21,7 @@ public class Client {
             stmt.setInt(1, currentIdCompte);
             stmt.executeQuery();
             stmt.close();
-            currentIdCompte = - 1;
+            currentIdCompte = -1;
         } catch (SQLException e) {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
@@ -69,7 +69,7 @@ public class Client {
     }
 
     /*  */
-    public static void parseConnexion() {
+    public static boolean parseConnexion() {
         String adresseMail = Console.read("Entrez votre adresse mail : ");
 
         /* ------- */
@@ -79,20 +79,27 @@ public class Client {
             ResultSet rset = stmt.executeQuery();
 
             if (rset.next()) {
-                String password = rset.getString(1);
-                String motDePasse = Console.read("Entrez votre MDP : ");
-                if (password.equals(motDePasse)) {
+                String dbPasswd = rset.getString(1);
+                if (dbPasswd == "") {
+                    System.out.println("Cet utilisateur n'existe pas");
+                    stmt.close();
+                    return false;
+                }
+                String enteredPasswd = Console.read("Entrez votre MDP : ");
+                if (dbPasswd.equals(enteredPasswd)) {
                     System.out.println("Vous êtes connectés");
                     stmt.close();
                     PreparedStatement getId = Database.getDb()
                             .prepareStatement("SELECT idCompte FROM Client WHERE emailClient = ?");
                     getId.setString(1, adresseMail);
-                    rset = stmt.executeQuery();
+                    rset = getId.executeQuery();
                     rset.next();
                     currentIdCompte = rset.getInt(1);
+                    return true;
                 } else {
                     stmt.close();
                     System.out.println("Connexion refusée");
+                    return false;
                 }
             } else {
                 System.out.println("Cet utilisateur n'existe pas");
@@ -102,6 +109,7 @@ public class Client {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
         }
+        return false;
     }
 
     public static void parseAdd() {
@@ -118,6 +126,18 @@ public class Client {
     }
 
     public static int getLoggedInId() {
+        if (currentIdCompte == -1) {
+            System.out.println("Vous devez vous connecter pour faire cette action !");
+            while (!parseConnexion()) {
+                System.out.println("Connexion impossible !");
+                System.out.println("Réessayer ? (Y/n)");
+                if (Console.read().equals("n")) {
+                    System.out.println("Entrez une nouvelle commande.");
+                    Console.prompt();
+                    return -1;
+                }
+            }
+        }
         return currentIdCompte;
     }
 

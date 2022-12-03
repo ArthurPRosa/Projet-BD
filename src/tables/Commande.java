@@ -26,7 +26,7 @@ public class Commande {
     }
 
     public static void parseOrder() {
-        TypeCommande s = Console.readWithParse(null, TypeCommande::parse);
+
         Commande commande = new Commande().idCompte(Client.getLoggedInId());
 
         System.out.println("Quel est le type de commande ?");
@@ -35,6 +35,7 @@ public class Commande {
             System.out.println(i + "> " + tc.toString());
             i++;
         }
+        TypeCommande s = Console.readWithParse(null, TypeCommande::parse);
 
         commande.heureCommande(Console.read("Entrez l'heure de la commande :"))
                 .dateCommande(Console.read("Entrez la date de la commande : "))
