@@ -7,7 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static java.lang.Math.min;
+
 public class Restaurant {
+    public static boolean firstRowPrinted = true;
     private static String emailRest;
     private static String nomRest;
     private static int telRest;
@@ -15,6 +18,7 @@ public class Restaurant {
     private static String presentation;
     private static int capaciteMax;
     private double noteRest;
+
     public Restaurant(String email) {
         emailRest = email;
     }
@@ -37,14 +41,14 @@ public class Restaurant {
                 capaciteMax = rset.getInt(6);
                 System.out.println(rest);
             }
+            firstRowPrinted = true;
         } catch (SQLException e) {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
         }
     }
 
-    public static void parseListDateFiltered()
-    {
+    public static void parseListDateFiltered() {
         //Horaires.Jour jour = Console.readWithParse("Entrez le jour de la semaine : ", Horaires.Jour::parse);
         String jour = Console.read("Entrez le jour de la semaine : ");
         String heure = Console.read("Entrez l'heure d'ouverture");
@@ -65,6 +69,7 @@ public class Restaurant {
                     System.out.println(rset.getString(i));
                 }
             }
+            firstRowPrinted = true;
         } catch (SQLException e) {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
@@ -155,14 +160,68 @@ public class Restaurant {
 
     @Override
     public String toString() {
-        return "Restaurant{" +
-                "emailRest='" + emailRest + '\'' +
-                ", nomRest='" + nomRest + '\'' +
-                ", telRest=" + telRest +
-                ", adresseRest='" + adresseRest + '\'' +
-                ", presentation='" + presentation + '\'' +
-                ", capaciteMax=" + capaciteMax +
-                ", noteRest=" + note() +
-                '}';
+        String strTelRest = String.valueOf(telRest);
+        String strCapMax = String.valueOf(capaciteMax);
+        String strNote = String.valueOf(noteRest);
+
+        int sizeEmail = emailRest.length();
+        int sizenomRest = nomRest.length();
+        int sizetelRest = strTelRest.length();
+        int sizeAdrRest = adresseRest.length();
+        int sizePresentation = presentation.length();
+        int sizeCapMax = strCapMax.length();
+        int sizeNote = strNote.length();
+
+        StringBuilder retString = new StringBuilder();
+        if (firstRowPrinted) {
+            retString.append(("=").repeat(240) + "\n")
+                    .append((" ").repeat(115)).append("Restaurants").append((" ").repeat(115)).append("\n")
+                    .append(("=").repeat(240)).append("\n")
+                    .append(String.format("| %-39s |", "Email"))
+                    .append(String.format(" %-40s ", "Nom"))
+                    .append(String.format("| %-9s |", "Tel"))
+                    .append(String.format(" %-40s ", "Adresse"))
+                    .append(String.format("| %-81s |", "Presentation"))
+                    .append(String.format(" %-4s ", "Cap"))
+                    .append(String.format("| %-5s |", "Note"))
+                    .append("\n")
+                    .append("|").append(("=").repeat(41)).append("|")
+                    .append(("=").repeat(42))
+                    .append("|").append(("=").repeat(11)).append("|")
+                    .append(("=").repeat(42))
+                    .append("|").append(("=").repeat(83)).append("|")
+                    .append(("=").repeat(6))
+                    .append("|").append(("=").repeat(7)).append("|")
+                    .append("\n");
+            firstRowPrinted = false;
+        }
+        int i = 0;
+        while (i * 40 < sizeEmail
+                || i * 40 < sizenomRest
+                || i * 9 < sizetelRest
+                || i * 40 < sizeAdrRest
+                || i * 80 < sizePresentation
+                || i * 4 < sizeCapMax
+                || i * 5 < sizeNote) {
+            retString.append(String.format("| %-39s |", emailRest.substring(min(i * 40, sizeEmail), min((i + 1) * 40, sizeEmail))))
+                    .append(String.format(" %-40s ", nomRest.substring(min(i * 40, sizenomRest), min((i + 1) * 40, sizenomRest))))
+                    .append(String.format("| %-9s |", strTelRest.substring(min(i * 9, sizetelRest), min((i + 1) * 9, sizetelRest))))
+                    .append(String.format(" %-40s ", adresseRest.substring(min(i * 40, sizeAdrRest), min((i + 1) * 40, sizeAdrRest))))
+                    .append(String.format("| %-81s |", presentation.substring(min(i * 81, sizePresentation), min((i + 1) * 81, sizePresentation))))
+                    .append(String.format(" %-4s ", strCapMax.substring(min(i * 4, sizeCapMax), min((i + 1) * 4, sizeCapMax))))
+                    .append(String.format("| %-5s |", strNote.substring(min(i * 5, sizeNote), min((i + 1) * 5, sizeNote))))
+                    .append("\n");
+            i++;
+        }
+
+        retString.append("|").append(("-").repeat(41)).append("|")
+                .append(("-").repeat(42))
+                .append("|").append(("-").repeat(11)).append("|")
+                .append(("-").repeat(42))
+                .append("|").append(("-").repeat(83)).append("|")
+                .append(("-").repeat(6))
+                .append("|").append(("-").repeat(7)).append("|")
+                .append("\n");
+        return retString.toString();
     }
 }
