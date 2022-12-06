@@ -1,12 +1,13 @@
 package tables;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 
 import demo.Console;
 
 public class Commande {
-    private String dateCommande;
-    private String heureCommande;
+    private long dateCommande;
+    private int heureCommande;
     private int idCompte;
     private String emailRest;
     private TypeCommande typeComm;
@@ -17,13 +18,6 @@ public class Commande {
     private String hLivraison = null;
     private int nbPersonnes = 0;
     private String hArrivee = null;
-
-    public static void parseList() {
-        // TODO afficher les commandes depuis la bdd
-        // TODO affichage par restaurant
-        // TODO affichage par idCompte
-        // TODO affichage par statut
-    }
 
     public static void parseOrder() {
 
@@ -37,8 +31,9 @@ public class Commande {
         }
         TypeCommande s = Console.readWithParse(null, TypeCommande::parse);
 
-        commande.heureCommande(Console.read("Entrez l'heure de la commande :"))
-                .dateCommande(Console.read("Entrez la date de la commande : "))
+        LocalDateTime now = LocalDateTime.now();
+        commande.heureCommande(now.getHour() * 60 + now.getMinute())
+                .dateCommande(System.currentTimeMillis())
                 .emailRest(Console.read("Entrez l'email du restaurant chez qui passer la commande :"))
                 .typeComm(s)
                 .statut(statutCommande.ATTENTE);
@@ -60,12 +55,12 @@ public class Commande {
         // TODO afficher les commandes et permettre à l'utilisateur d'en supprimer une
     }
 
-    public Commande dateCommande(String date) {
+    public Commande dateCommande(long dateCommande) {
         this.dateCommande = dateCommande;
         return this;
     }
 
-    public Commande heureCommande(String date) {
+    public Commande heureCommande(int heureCommande) {
         this.heureCommande = heureCommande;
         return this;
     }

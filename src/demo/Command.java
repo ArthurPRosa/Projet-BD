@@ -9,8 +9,8 @@ import java.util.LinkedList;
  * Class handling commands typed in the terminal
  */
 public class Command {
-	private static LinkedList<String> commands = new LinkedList<>(
-			Arrays.asList("help", "list", "add", "del", "order", "populate", "create", "drop", "forget", "exit", "quit"));
+	public static LinkedList<String> commands = new LinkedList<>(
+			Arrays.asList("help", "list", "order", "rate", "populate", "create", "drop", "forget", "exit", "quit"));
 
 	public static void parseCommand(String cmd) {
 		String[] args = cmd.split(" ");
@@ -20,25 +20,30 @@ public class Command {
 				break;
 			case "list":
 				switch (args[1]) {
-					case "rest" -> Restaurant.parseList();
-					case "dish" -> Plat.parseList();
-					case "aller" -> Allergene.parseList();
-					case "cat" -> Categorie.parseList();
-					case "users" -> Client.parseList();
-					case "order" -> Commande.parseList();
-					case "rating" -> Evaluation.parseList();
+					case "rest":
+						if (args.length < 3)
+							Restaurant.parseList();
+						else
+							switch (args[2]) {
+								case "cat" -> {
+								}
+								case "hor" -> {
+								}
+							}
+						break;
+					case "dish":
+						Plat.parseList();
+						break;
+					case "cat":
+						Categorie.parseList();
+						break;
+					case "users":
+						Client.parseList();
+						break;
 				}
 				break;
-			case "add":
-				if ("rating".equals(args[1])) {
-					Evaluation.parseAdd();
-				}
-				break;
-			case "del":
-				switch (args[1]) {
-					case "order" -> Commande.parseDel();
-					case "rating" -> Evaluation.parseDel();
-				}
+			case "rate":
+				Evaluation.parseAdd();
 				break;
 			case "order":
 				Commande.parseOrder();
@@ -58,7 +63,9 @@ public class Command {
 			case "forget":
 				Client.forget();
 				break;
-			// exit command is treating inside demonstrator
+			case "quit":
+			case "exit":
+				System.exit(0);
 		}
 	}
 

@@ -24,13 +24,12 @@ public class Database {
             // DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             DriverManager.registerDriver(new org.mariadb.jdbc.Driver());
             System.out.println("Connexion à la base de données...");
-            // db =
             // DriverManager.getConnection("jdbc:oracle:thin:@oracle1.ensimag.fr:1521:oracle1",
-            // "pintoroa", "jeej");
+            // "eyraudh", "eyraudh");
             db = DriverManager.getConnection(
                     "jdbc:mariadb://adlors.ddns.net:3306/projetbd?user=test&password=jeej;");
             db.createStatement().execute("SET SQL_MODE='ORACLE';");
-            System.out.println("Connection réussie !");
+            System.out.println("Connexion réussie !");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -92,7 +91,7 @@ public class Database {
                 "prixCommande INT," +
                 "statut VARCHAR(30) CHECK (statut IN ('attente','validee','disponible','livraison','annuleeClient','annuleeRest')),"
                 +
-                "PRIMARY KEY (dateCommande)," +
+                "PRIMARY KEY (dateCommande, heureCommande)," +
                 "FOREIGN KEY (idCompte) REFERENCES Compte (idCompte)," +
                 "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest)" +
                 ")");
@@ -104,7 +103,7 @@ public class Database {
                 "adresseLivraison VARCHAR(100)," +
                 "infos VARCHAR(500)," +
                 "heureLivraison INT," +
-                "FOREIGN KEY (dateCommande) REFERENCES Commande (dateCommande)," +
+                "FOREIGN KEY (dateCommande, heureCommande) REFERENCES Commande (dateCommande, heureCommande)," +
                 "FOREIGN KEY (idCompte) REFERENCES Compte (idCompte)," +
                 "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest))");
         createTable("CREATE TABLE Livraison (" +
@@ -114,7 +113,7 @@ public class Database {
                 "emailRest VARCHAR(320)," +
                 "nbPersonne INT," +
                 "heureArivee INT," +
-                "FOREIGN KEY (dateCommande) REFERENCES Commande (dateCommande)," +
+                "FOREIGN KEY (dateCommande, heureCommande) REFERENCES Commande (dateCommande, heureCommande)," +
                 "FOREIGN KEY (idCompte) REFERENCES Compte (idCompte)," +
                 "FOREIGN KEY (emailRest) REFERENCES Restaurant (emailRest))");
         createTable("CREATE TABLE PossedeEvaluation (" +

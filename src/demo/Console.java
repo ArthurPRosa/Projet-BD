@@ -2,11 +2,14 @@ package demo;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import org.aesh.readline.Readline;
 import org.aesh.readline.ReadlineBuilder;
+import org.aesh.readline.completion.Completion;
 import org.aesh.readline.tty.terminal.TerminalConnection;
 import org.aesh.terminal.Connection;
 import org.aesh.terminal.tty.Signal;
@@ -60,7 +63,7 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
                     });
                     th.start();
                     readlineAvailable.set(true);
-                });
+                }, getCompletions());
                 while (!readlineAvailable.get() || inParsing.get())
                     Thread.sleep(10);
             }
@@ -72,6 +75,7 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
 
     /**
      * Prompt the user to enter some data
+     * 
      * @return data from the user
      */
     public static String read() {
@@ -92,6 +96,7 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
 
     /**
      * Writes a message on the terminal and lets the user enter some data
+     * 
      * @param prompt message to display
      * @return data from the user
      */
@@ -120,7 +125,7 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
     /**
      * @param prompt message to display
      * @param parser how to parse the data from the user
-     * @param <T> data type
+     * @param <T>    data type
      * @return the data from the user, with type T
      */
     public static <T> T readWithParse(String prompt, Parser<T> parser) {
@@ -130,6 +135,18 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
             System.out.println("Vous n'avez pas donné le bon type !");
             return readWithParse(prompt, parser);
         }
+    }
+
+    private static List<Completion> getCompletions() {
+        List<Completion> completions = new LinkedList<>();
+        completions.add(completeOperation -> {
+            for (String cmd : Command.commands) {
+                if (cmd.startsWith(completeOperation.getBuffer()))
+                    completeOperation.addCompletionCandidate(cmd);
+            }
+
+        });
+        return completions;
     }
 
     public interface Parser<T> {
