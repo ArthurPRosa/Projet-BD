@@ -174,9 +174,9 @@ public class Restaurant {
 
         StringBuilder retString = new StringBuilder();
         if (firstRowPrinted) {
-            retString.append(("=").repeat(240) + "\n")
-                    .append((" ").repeat(115)).append("Restaurants").append((" ").repeat(115)).append("\n")
-                    .append(("=").repeat(240)).append("\n")
+            retString.append("╒").append(("═").repeat(238)).append("╕").append("\n")
+                    .append("│").append((" ").repeat(114)).append("Restaurants").append((" ").repeat(113)).append("│").append("\n")
+                    .append("╞").append(("═").repeat(238)).append("╡").append("\n")
                     .append(String.format("| %-39s |", "Email"))
                     .append(String.format(" %-40s ", "Nom"))
                     .append(String.format("| %-9s |", "Tel"))
@@ -220,8 +220,7 @@ public class Restaurant {
                 .append(("-").repeat(42))
                 .append("|").append(("-").repeat(83)).append("|")
                 .append(("-").repeat(6))
-                .append("|").append(("-").repeat(7)).append("|")
-                .append("\n");
+                .append("|").append(("-").repeat(7)).append("|");
         return retString.toString();
     }
 }
