@@ -129,7 +129,7 @@ public class Plat {
         while (i * 30 < sizeNom
                 || i * 4 < sizePrix
                 || i * 50 < sizeDesc) {
-            retString.append(String.format("║ " + "%-30s │", strNom.substring(min(i * 30, sizlilisteNom), min((i + 1) * 30, sizeNom))))
+            retString.append(String.format("║ " + "%-30s │", strNom.substring(min(i * 30, sizeNom), min((i + 1) * 30, sizeNom))))
                     .append(String.format(" %-4s ", strPrix.substring(min(i * 4, sizePrix), min((i + 1) * 4, sizePrix))))
                     .append(String.format("│ %-50s ║", descPlat.substring(min(i * 50, sizeDesc), min((i + 1) * 50, sizeDesc))))
                     .append("\n");
