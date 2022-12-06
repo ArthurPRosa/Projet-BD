@@ -7,7 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static java.lang.Math.min;
+
 public class Client {
+    private static boolean firstRowPrinted = true;
     private String emailClient;
     private String mdp;
     private String nomClient;
@@ -26,18 +29,6 @@ public class Client {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "emailClient='" + emailClient + '\'' +
-                ", mdp='" + mdp + '\'' +
-                ", nomClient='" + nomClient + '\'' +
-                ", prenomClient='" + prenomClient + '\'' +
-                ", adresseClient='" + adresseClient + '\'' +
-                ", idCompte='" + currentIdCompte + '\'' +
-                '}';
     }
 
     public Client(String emailClient) {
@@ -61,6 +52,7 @@ public class Client {
                 currentIdCompte = rset.getInt(6);
                 System.out.println(client);
             }
+            firstRowPrinted = true;
             stmt.close();
         } catch (SQLException e) {
             System.err.println("SQL request failed");
@@ -161,4 +153,61 @@ public class Client {
         return this;
     }
 
+    @Override
+    public String toString() {
+        String strIdCompte = String.valueOf(currentIdCompte);
+
+        int sizeEmail = emailClient.length();
+        int sizemdp = mdp.length();
+        int sizeNom = nomClient.length();
+        int sizePrenom = prenomClient.length();
+        int sizeAdresse = adresseClient.length();
+        int sizeIdCompte = strIdCompte.length();
+
+        StringBuilder retString = new StringBuilder();
+        if (firstRowPrinted) {
+            retString.append("╔").append(("═").repeat(159)).append("╗").append("\n")
+                    .append("║").append((" ").repeat(74)).append("Clients").append((" ").repeat(78)).append("║").append("\n")
+                    .append("╠").append(("═").repeat(42)).append("╤").append(("═").repeat(20)).append("╤").append(("═").repeat(17)).append("╤").append(("═").repeat(17)).append("╤").append(("═").repeat(52)).append("╤").append(("═").repeat(6)).append("╣").append("\n")
+                    .append(String.format("║ %-40s │", "Email"))
+                    .append(String.format(" %-18s ", "mdp"))
+                    .append(String.format("│ %-15s │", "Nom"))
+                    .append(String.format(" %-15s ", "Prenom"))
+                    .append(String.format("│ %-50s │", "Adresse"))
+                    .append(String.format(" %-4s ║", "ID"))
+                    .append("\n")
+                    .append("╠").append(("═").repeat(42)).append("╪")
+                    .append(("═").repeat(20))
+                    .append("╪").append(("═").repeat(17)).append("╪")
+                    .append(("═").repeat(17))
+                    .append("╪").append(("═").repeat(52)).append("╪")
+                    .append(("═").repeat(6)).append("╣")
+                    .append("\n");
+            firstRowPrinted = false;
+        }
+        int i = 0;
+        while (i * 40 < sizeEmail
+                || i * 18 < sizemdp
+                || i * 15 < sizeNom
+                || i * 15 < sizePrenom
+                || i * 50 < sizeAdresse
+                || i * 4 < sizeIdCompte) {
+            retString.append(String.format("║ %-40s │", emailClient.substring(min(i * 40, sizeEmail), min((i + 1) * 40, sizeEmail))))
+                    .append(String.format(" %-18s ", mdp.substring(min(i * 18, sizemdp), min((i + 1) * 18, sizemdp))))
+                    .append(String.format("│ %-15s │", nomClient.substring(min(i * 15, sizeNom), min((i + 1) * 15, sizeNom))))
+                    .append(String.format(" %-15s ", prenomClient.substring(min(i * 15, sizePrenom), min((i + 1) * 15, sizePrenom))))
+                    .append(String.format("│ %-50s │", adresseClient.substring(min(i * 50, sizeAdresse), min((i + 1) * 50, sizeAdresse))))
+                    .append(String.format(" %-4s ║", strIdCompte.substring(min(i * 4, sizeIdCompte), min((i + 1) * 4, sizeIdCompte))))
+                    .append("\n");
+            i++;
+        }
+
+        retString.append("╟").append(("─").repeat(42)).append("┼")
+                .append(("─").repeat(20))
+                .append("┼").append(("─").repeat(17)).append("┼")
+                .append(("─").repeat(17))
+                .append("┼").append(("─").repeat(52)).append("┼")
+                .append(("─").repeat(6)).append("╢");
+        return retString.toString();
+    }
 }

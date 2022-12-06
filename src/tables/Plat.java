@@ -2,6 +2,10 @@ package tables;
 
 import demo.Console;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Plat {
     private String emailRest;
     private String nomPlat;
@@ -11,6 +15,25 @@ public class Plat {
     public static void parseList() {
         // TODO afficher les plats depuis la bdd
         // TODO affichage par restaurant
+        try {
+            PreparedStatement stmt = demo.Database.getDb().prepareStatement
+                    ("SELECT * FROM EstCategorieDe WHERE emailRest LIKE ?");
+            String emailRest = Console.read("Entrez l'email du restaurant : ");
+            stmt.setString(1, emailRest);
+            ResultSet rset = stmt.executeQuery();
+            while (rset.next()) {
+                Plat plat = new Plat()
+                        .emailRest(rset.getString(1))
+                        .nomPlat(rset.getString(2))
+                        .prix(Integer.parseInt(rset.getString(3)))
+                        .descPlat(rset.getString(4));
+                System.out.println(plat);
+            }
+            stmt.close();
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
     }
 
     public static void parseAdd() {
@@ -24,6 +47,7 @@ public class Plat {
     public static void parseDel() {
         // TODO afficher les plats et permettre à l'utilisateur d'en supprimer un
     }
+
     private Plat emailRest(String emailRest) {
         this.emailRest = emailRest;
         return this;
