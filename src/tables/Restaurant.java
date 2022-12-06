@@ -175,23 +175,23 @@ public class Restaurant {
         StringBuilder retString = new StringBuilder();
         if (firstRowPrinted) {
             retString.append("╒").append(("═").repeat(238)).append("╕").append("\n")
-                    .append("│").append((" ").repeat(114)).append("Restaurants").append((" ").repeat(113)).append("│").append("\n")
+                    .append("┃").append((" ").repeat(114)).append("Restaurants").append((" ").repeat(113)).append("┃").append("\n")
                     .append("╞").append(("═").repeat(238)).append("╡").append("\n")
-                    .append(String.format("| %-39s |", "Email"))
+                    .append(String.format("┃ %-39s │", "Email"))
                     .append(String.format(" %-40s ", "Nom"))
-                    .append(String.format("| %-9s |", "Tel"))
+                    .append(String.format("│ %-9s │", "Tel"))
                     .append(String.format(" %-40s ", "Adresse"))
-                    .append(String.format("| %-81s |", "Presentation"))
+                    .append(String.format("│ %-81s │", "Presentation"))
                     .append(String.format(" %-4s ", "Cap"))
-                    .append(String.format("| %-5s |", "Note"))
+                    .append(String.format("│ %-5s ┃", "Note"))
                     .append("\n")
-                    .append("|").append(("=").repeat(41)).append("|")
+                    .append("┃").append(("=").repeat(41)).append("│")
                     .append(("=").repeat(42))
-                    .append("|").append(("=").repeat(11)).append("|")
+                    .append("│").append(("=").repeat(11)).append("│")
                     .append(("=").repeat(42))
-                    .append("|").append(("=").repeat(83)).append("|")
+                    .append("│").append(("=").repeat(83)).append("│")
                     .append(("=").repeat(6))
-                    .append("|").append(("=").repeat(7)).append("|")
+                    .append("│").append(("=").repeat(7)).append("┃")
                     .append("\n");
             firstRowPrinted = false;
         }
@@ -203,24 +203,24 @@ public class Restaurant {
                 || i * 80 < sizePresentation
                 || i * 4 < sizeCapMax
                 || i * 5 < sizeNote) {
-            retString.append(String.format("| %-39s |", emailRest.substring(min(i * 40, sizeEmail), min((i + 1) * 40, sizeEmail))))
+            retString.append(String.format("┃ %-39s │", emailRest.substring(min(i * 40, sizeEmail), min((i + 1) * 40, sizeEmail))))
                     .append(String.format(" %-40s ", nomRest.substring(min(i * 40, sizenomRest), min((i + 1) * 40, sizenomRest))))
-                    .append(String.format("| %-9s |", strTelRest.substring(min(i * 9, sizetelRest), min((i + 1) * 9, sizetelRest))))
+                    .append(String.format("│ %-9s │", strTelRest.substring(min(i * 9, sizetelRest), min((i + 1) * 9, sizetelRest))))
                     .append(String.format(" %-40s ", adresseRest.substring(min(i * 40, sizeAdrRest), min((i + 1) * 40, sizeAdrRest))))
-                    .append(String.format("| %-81s |", presentation.substring(min(i * 81, sizePresentation), min((i + 1) * 81, sizePresentation))))
+                    .append(String.format("│ %-81s │", presentation.substring(min(i * 81, sizePresentation), min((i + 1) * 81, sizePresentation))))
                     .append(String.format(" %-4s ", strCapMax.substring(min(i * 4, sizeCapMax), min((i + 1) * 4, sizeCapMax))))
-                    .append(String.format("| %-5s |", strNote.substring(min(i * 5, sizeNote), min((i + 1) * 5, sizeNote))))
+                    .append(String.format("│ %-5s ┃", strNote.substring(min(i * 5, sizeNote), min((i + 1) * 5, sizeNote))))
                     .append("\n");
             i++;
         }
 
-        retString.append("|").append(("-").repeat(41)).append("|")
+        retString.append("┃").append(("-").repeat(41)).append("│")
                 .append(("-").repeat(42))
-                .append("|").append(("-").repeat(11)).append("|")
+                .append("│").append(("-").repeat(11)).append("│")
                 .append(("-").repeat(42))
-                .append("|").append(("-").repeat(83)).append("|")
+                .append("│").append(("-").repeat(83)).append("│")
                 .append(("-").repeat(6))
-                .append("|").append(("-").repeat(7)).append("|");
+                .append("│").append(("-").repeat(7)).append("┃");
         return retString.toString();
     }
 }
