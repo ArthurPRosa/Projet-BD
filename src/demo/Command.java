@@ -28,6 +28,7 @@ public class Command {
 								case "cat" -> {
 								}
 								case "hor" -> {
+									Restaurant.parseListDateFiltered();
 								}
 							}
 						break;
