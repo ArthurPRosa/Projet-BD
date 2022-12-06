@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import static java.lang.Math.min;
 
 public class Restaurant {
-    public static boolean firstRowPrinted = true;
+    private static boolean firstRowPrinted = true;
     private static String emailRest;
     private static String nomRest;
     private static int telRest;
@@ -174,53 +174,53 @@ public class Restaurant {
 
         StringBuilder retString = new StringBuilder();
         if (firstRowPrinted) {
-            retString.append("╒").append(("═").repeat(238)).append("╕").append("\n")
-                    .append("┃").append((" ").repeat(114)).append("Restaurants").append((" ").repeat(113)).append("┃").append("\n")
-                    .append("╞").append(("═").repeat(238)).append("╡").append("\n")
-                    .append(String.format("┃ %-39s │", "Email"))
-                    .append(String.format(" %-40s ", "Nom"))
+            retString.append("╔").append(("═").repeat(160)).append("╗").append("\n")
+                    .append("║").append((" ").repeat(71)).append("Restaurants").append((" ").repeat(78)).append("║").append("\n")
+                    .append("╠").append(("═").repeat(32)).append("╤").append(("═").repeat(29)).append("╤").append(("═").repeat(11)).append("╤").append(("═").repeat(27)).append("╤").append(("═").repeat(42)).append("╤").append(("═").repeat(6)).append("╤").append(("═").repeat(7)).append("╣").append("\n")
+                    .append(String.format("║ %-30s │", "Email"))
+                    .append(String.format(" %-27s ", "Nom"))
                     .append(String.format("│ %-9s │", "Tel"))
-                    .append(String.format(" %-40s ", "Adresse"))
-                    .append(String.format("│ %-81s │", "Presentation"))
+                    .append(String.format(" %-25s ", "Adresse"))
+                    .append(String.format("│ %-40s │", "Presentation"))
                     .append(String.format(" %-4s ", "Cap"))
-                    .append(String.format("│ %-5s ┃", "Note"))
+                    .append(String.format("│ %-5s ║", "Note"))
                     .append("\n")
-                    .append("┃").append(("=").repeat(41)).append("│")
-                    .append(("=").repeat(42))
-                    .append("│").append(("=").repeat(11)).append("│")
-                    .append(("=").repeat(42))
-                    .append("│").append(("=").repeat(83)).append("│")
-                    .append(("=").repeat(6))
-                    .append("│").append(("=").repeat(7)).append("┃")
+                    .append("╠").append(("═").repeat(32)).append("╪")
+                    .append(("═").repeat(29))
+                    .append("╪").append(("═").repeat(11)).append("╪")
+                    .append(("═").repeat(27))
+                    .append("╪").append(("═").repeat(42)).append("╪")
+                    .append(("═").repeat(6))
+                    .append("╪").append(("═").repeat(7)).append("╣")
                     .append("\n");
             firstRowPrinted = false;
         }
         int i = 0;
-        while (i * 40 < sizeEmail
-                || i * 40 < sizenomRest
+        while (i * 30 < sizeEmail
+                || i * 27 < sizenomRest
                 || i * 9 < sizetelRest
-                || i * 40 < sizeAdrRest
-                || i * 80 < sizePresentation
+                || i * 25 < sizeAdrRest
+                || i * 40 < sizePresentation
                 || i * 4 < sizeCapMax
                 || i * 5 < sizeNote) {
-            retString.append(String.format("┃ %-39s │", emailRest.substring(min(i * 40, sizeEmail), min((i + 1) * 40, sizeEmail))))
-                    .append(String.format(" %-40s ", nomRest.substring(min(i * 40, sizenomRest), min((i + 1) * 40, sizenomRest))))
+            retString.append(String.format("║ %-30s │", emailRest.substring(min(i * 30, sizeEmail), min((i + 1) * 30, sizeEmail))))
+                    .append(String.format(" %-27s ", nomRest.substring(min(i * 27, sizenomRest), min((i + 1) * 27, sizenomRest))))
                     .append(String.format("│ %-9s │", strTelRest.substring(min(i * 9, sizetelRest), min((i + 1) * 9, sizetelRest))))
-                    .append(String.format(" %-40s ", adresseRest.substring(min(i * 40, sizeAdrRest), min((i + 1) * 40, sizeAdrRest))))
-                    .append(String.format("│ %-81s │", presentation.substring(min(i * 81, sizePresentation), min((i + 1) * 81, sizePresentation))))
+                    .append(String.format(" %-25s ", adresseRest.substring(min(i * 25, sizeAdrRest), min((i + 1) * 25, sizeAdrRest))))
+                    .append(String.format("│ %-40s │", presentation.substring(min(i * 40, sizePresentation), min((i + 1) * 40, sizePresentation))))
                     .append(String.format(" %-4s ", strCapMax.substring(min(i * 4, sizeCapMax), min((i + 1) * 4, sizeCapMax))))
-                    .append(String.format("│ %-5s ┃", strNote.substring(min(i * 5, sizeNote), min((i + 1) * 5, sizeNote))))
+                    .append(String.format("│ %-5s ║", strNote.substring(min(i * 5, sizeNote), min((i + 1) * 5, sizeNote))))
                     .append("\n");
             i++;
         }
 
-        retString.append("┃").append(("-").repeat(41)).append("│")
-                .append(("-").repeat(42))
-                .append("│").append(("-").repeat(11)).append("│")
-                .append(("-").repeat(42))
-                .append("│").append(("-").repeat(83)).append("│")
-                .append(("-").repeat(6))
-                .append("│").append(("-").repeat(7)).append("┃");
+        retString.append("╟").append(("─").repeat(32)).append("┼")
+                .append(("─").repeat(29))
+                .append("┼").append(("─").repeat(11)).append("┼")
+                .append(("─").repeat(27))
+                .append("┼").append(("─").repeat(42)).append("┼")
+                .append(("─").repeat(6))
+                .append("┼").append(("─").repeat(7)).append("╢");
         return retString.toString();
     }
 }
