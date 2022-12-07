@@ -1,10 +1,15 @@
 package tables;
 
 import demo.Console;
+import demo.Database;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Evaluation {
     private String dateEval;
-    private String hEval;
+    private int hEval;
     private String avis;
     private int note;
 
@@ -16,10 +21,33 @@ public class Evaluation {
 
     public static void parseAdd() {
         Evaluation evaluation = new Evaluation().dateEval(Console.read("Entrez la date de l'évaluation"))
-                .hEval(Console.read("Entrez l'heure de l'évaluation"))
+                .hEval(Console.readWithParse("Entrez l'heure de l'évaluation", Integer::parseInt))
                 .avis(Console.read("Entrez votre avis :"))
                 .note(Console.readWithParse("Entrez votre note :", Integer::parseInt));
         System.out.println(evaluation);
+        try {
+            // TODO set autocommit off;
+            PreparedStatement stmt = Database.getDb().prepareStatement("INSERT INTO Eval VALUES (?, ?, ?, ?)");
+            stmt.setString(1, evaluation.dateEval);
+            stmt.setInt(2, evaluation.hEval);
+            stmt.setString(3, evaluation.avis);
+            stmt.setInt(4, evaluation.note);
+            stmt.executeQuery();
+            stmt.close();
+            stmt = Database.getDb().prepareStatement("INSERT INTO PossedeEvaluation VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            // TODO lien avec la commande
+            stmt.setString(5, evaluation.dateEval);
+            stmt.setInt(6, evaluation.hEval);
+            stmt.setString(7, evaluation.avis);
+            stmt.setInt(8, evaluation.note);
+            stmt.executeQuery();
+            stmt.close();
+            // TODO commit
+            // TODO set autocommit on
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
     }
 
     public static void parseDel() {
@@ -31,7 +59,7 @@ public class Evaluation {
         return this;
     }
 
-    public Evaluation hEval(String hEval) {
+    public Evaluation hEval(int hEval) {
         this.hEval = hEval;
         return this;
     }

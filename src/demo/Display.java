@@ -19,7 +19,6 @@ public class Display {
     public static void helper() {
         System.out.println("\n#################################\n");
         System.out.println("Faites help pour un récap des commandes disponibles, help <commande> pour un détail plus précis.");
-        System.out.println("Si vous avez terminé d'entrer vos données, entrez la commande apply");
     }
 
     /**

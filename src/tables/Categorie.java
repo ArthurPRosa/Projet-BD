@@ -3,6 +3,7 @@ package tables;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -67,8 +68,29 @@ public class Categorie {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
         }
+    }
 
+    public static ArrayList<String> affFilleRet(String nomCategorieMere) {
+        return affFilleRetArr(nomCategorieMere, new ArrayList<String>());
+    }
 
+    public static ArrayList<String> affFilleRetArr(String nomCategorieMere, ArrayList<String> meres) {
+        try {
+            PreparedStatement stmt = demo.Database.getDb().prepareStatement("SELECT nomCategorieFille FROM APourMere WHERE nomCategorieMere LIKE ?");
+            stmt.setString(1, nomCategorieMere);
+            ResultSet rset = stmt.executeQuery();
+            meres.add(nomCategorieMere);
+            while (rset.next()) {
+                String nomCategorieFille = rset.getString(1);
+                meres.add(nomCategorieFille);
+            }
+            stmt.close();
+            return meres;
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
+        return null;
     }
 
     public static void parseAdd() {

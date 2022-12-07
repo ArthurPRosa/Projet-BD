@@ -95,4 +95,13 @@ public class Horaires {
         this.heureFermeture = heureFermeture;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Horaires{" +
+                "jour=" + jour +
+                ", heureOuverture='" + heureOuverture + '\'' +
+                ", heureFermeture='" + heureFermeture + '\'' +
+                '}';
+    }
 }

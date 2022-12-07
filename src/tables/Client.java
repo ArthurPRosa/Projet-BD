@@ -6,17 +6,20 @@ import demo.Database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import static java.lang.Math.min;
+import static tables.Restaurant.parseListCat;
 
 public class Client {
-    private static boolean firstRowPrinted = true;
     private String emailClient;
     private String mdp;
     private String nomClient;
     private String prenomClient;
     private String adresseClient;
     private static int currentIdCompte = -1;
+    private static HashMap<Integer, String> recommandations = new HashMap<Integer, String>(); // HashMap ID and category of last command
+    private static boolean firstRowPrinted = true;
 
     public static void forget() {
         try {
@@ -87,6 +90,11 @@ public class Client {
                     rset = getId.executeQuery();
                     rset.next();
                     currentIdCompte = rset.getInt(1);
+                    if (!recommandations.containsKey(rset.getInt(1))) {
+                        recommandations.put(rset.getInt(1), "Cuisine européenne");
+                    }
+                    System.out.println("Les recommandations pour votre commande sont les suivantes : ");
+                    parseListCat(recommandations.get(rset.getInt(1)));
                     return true;
                 } else {
                     stmt.close();
