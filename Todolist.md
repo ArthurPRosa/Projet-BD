@@ -3,6 +3,9 @@
 
 ## Catégories
 - [ ] Parcours des catégories et sous-catégories, ou des catégories recommandées, au choix. Les  restaurants des catégories seront affichés par ordre décroissant de leur note et par ordre alphabétique (un seul tri multicritère).
+- [ ] Ajout d'un liste de catégorie recommandée.
+- [ ] Affichage des restu apr catégorie.
+- [ ] Quand l'utilisateur se connecte, afficher les restau de la catégorie recommandée.
 
 `list rest` : liste tous les attributs d'un restaurant (+ note + catégories)
 `list rest all` : `liste rest` pour tous les restaurants
@@ -16,4 +19,4 @@
 - [ ] Si le nombre de places est insuffisant pour venir sur place, prévenir le client pendant la commande
 
 ## Droit à l'oubli
-- [ ] Permettre à l'utilisateur de supprimer ses données personnelles
+- [x] Permettre à l'utilisateur de supprimer ses données personnelles
