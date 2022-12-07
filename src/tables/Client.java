@@ -18,7 +18,7 @@ public class Client {
     private String prenomClient;
     private String adresseClient;
     private static int currentIdCompte = -1;
-    private static HashMap<Integer, String> recommandations = new HashMap<Integer, String>();
+    private static HashMap<Integer, String> recommandations = new HashMap<Integer, String>(); // HashMap ID and category of last command
     private static boolean firstRowPrinted = true;
 
     public static void forget() {
