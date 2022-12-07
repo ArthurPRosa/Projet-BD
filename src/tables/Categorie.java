@@ -3,10 +3,7 @@ package tables;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 import demo.Console;
 
@@ -71,19 +68,19 @@ public class Categorie {
         }
     }
 
-    public static String affMereRet(String nomCategorieFille) {
-        return affMereRetRec(nomCategorieFille, "");
+    public static ArrayList<String> affFilleRet(String nomCategorieMere) {
+        return affFilleRetRec(nomCategorieMere, new ArrayList<String>());
     }
 
-    public static String affMereRetRec(String nomCategorieFille, String meres){
+    public static ArrayList<String> affFilleRetRec(String nomCategorieMere, ArrayList<String> meres){
         try {
-            PreparedStatement stmt = demo.Database.getDb().prepareStatement("SELECT nomCategorieMere FROM APourMere WHERE nomCategorieFille LIKE ?");
-            stmt.setString(1, nomCategorieFille);
+            PreparedStatement stmt = demo.Database.getDb().prepareStatement("SELECT nomCategorieFille FROM APourMere WHERE nomCategorieMere LIKE ?");
+            stmt.setString(1, nomCategorieMere);
             ResultSet rset = stmt.executeQuery();
-            meres += nomCategorieFille + " | ";
+            meres.add(nomCategorieMere);
             while (rset.next()) {
-                String nomCategorieMere = rset.getString(1);
-                return affMereRetRec(nomCategorieMere, meres);
+                String nomCategorieFille = rset.getString(1);
+                return affFilleRetRec(nomCategorieFille, meres);
             }
             stmt.close();
         } catch (SQLException e) {

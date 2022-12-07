@@ -3,15 +3,16 @@ package tables;
 import demo.Console;
 import demo.Database;
 
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.Math.min;
-import static tables.Categorie.affMere;
-import static tables.Categorie.affMereRet;
+import static tables.Categorie.*;
 
 public class Restaurant {
     private static boolean firstRowPrinted = true;
@@ -53,20 +54,27 @@ public class Restaurant {
     }
 
     public static void parseListCat() {
+        String cat = Console.read("Entrez la catégorie recherchée : ");
+        parseListCatRec(cat);
+    }
+
+    public static void parseListCatRec(String nomCatMere) {
         // récupérer les restaurants depuis la bdd et les afficher
         try {
-            PreparedStatement stmt = Database.getDb().prepareStatement
-                    ("SELECT R.emailRest, D.nomCategorie " +
-                            "FROM Restaurant R,  EstCategorieDe D " +
-                            "WHERE R.emailRest = D.emailRest");
+            PreparedStatement stmt = demo.Database.getDb().prepareStatement
+                    ("SELECT nomRest FROM Restaurant R, EstCategorieDe D " +
+                            "WHERE R.emailRest = D.emailRest AND D.nomCategorie = ?");
+            stmt.setString(1, nomCatMere);
             ResultSet rset = stmt.executeQuery();
-            System.out.println("informations restau");
-            HashMap res = new HashMap<String, String>();
             while (rset.next()) {
-                res.put(rset.getString(1), rset.getString(2));
+                String nomRest = rset.getString(1);
+                System.out.println(nomRest);
+                ArrayList<String> cats = affFilleRet(nomCatMere);
+                if (cats.size() > 1) {
+                    parseListCatRec(affFilleRet(nomCatMere).get(1));
+                }
             }
-            res.forEach((key, value)
-        -> System.out.println(key + " : " + affMereRet(value.toString())));
+            stmt.close();
         } catch (SQLException e) {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
