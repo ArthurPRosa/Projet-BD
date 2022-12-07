@@ -69,8 +69,4 @@ public class Command {
 		}
 	}
 
-	private static void apply() {
-		// TODO
-	}
-
 }

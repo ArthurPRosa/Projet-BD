@@ -1,12 +1,12 @@
 package tables;
 
-import demo.Console;
-import demo.Database;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+
+import demo.Console;
+import demo.Database;
 
 public class Horaires {
     private Jour jour;
