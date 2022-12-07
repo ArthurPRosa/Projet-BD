@@ -69,10 +69,10 @@ public class Categorie {
     }
 
     public static ArrayList<String> affFilleRet(String nomCategorieMere) {
-        return affFilleRetRec(nomCategorieMere, new ArrayList<String>());
+        return affFilleRetArr(nomCategorieMere, new ArrayList<String>());
     }
 
-    public static ArrayList<String> affFilleRetRec(String nomCategorieMere, ArrayList<String> meres){
+    public static ArrayList<String> affFilleRetArr(String nomCategorieMere, ArrayList<String> meres) {
         try {
             PreparedStatement stmt = demo.Database.getDb().prepareStatement("SELECT nomCategorieFille FROM APourMere WHERE nomCategorieMere LIKE ?");
             stmt.setString(1, nomCategorieMere);
@@ -80,14 +80,15 @@ public class Categorie {
             meres.add(nomCategorieMere);
             while (rset.next()) {
                 String nomCategorieFille = rset.getString(1);
-                return affFilleRetRec(nomCategorieFille, meres);
+                meres.add(nomCategorieFille);
             }
             stmt.close();
+            return meres;
         } catch (SQLException e) {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
         }
-        return meres;
+        return null;
     }
 
     public static void parseAdd() {
