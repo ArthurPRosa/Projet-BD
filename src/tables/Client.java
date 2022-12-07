@@ -66,7 +66,7 @@ public class Client {
 
         /* ------- */
         try {
-            PreparedStatement stmt = Database.getDb().prepareStatement("SELECT mdp FROM CLIENT WHERE emailClient = ?");
+            PreparedStatement stmt = Database.getDb().prepareStatement("SELECT mdp FROM Client WHERE emailClient = ?");
             stmt.setString(1, adresseMail);
             ResultSet rset = stmt.executeQuery();
 
@@ -104,13 +104,13 @@ public class Client {
         return false;
     }
 
-    public static void parseAdd() {
-        Client client = new Client(Console.read("Entrez l'email du client : "))
-                .mdp(Console.read("Entrez le mot de passe du client :"))
-                .nomClient(Console.read("Entrez le nom du client : "))
-                .prenomClient(Console.read("Entrez le prénom du client : "))
-                .adresseClient(Console.read("Entrez l'adresse du client : "));
-    }
+    // public static void parseAdd() {
+    //     Client client = new Client(Console.read("Entrez l'email du client : "))
+    //             .mdp(Console.read("Entrez le mot de passe du client :"))
+    //             .nomClient(Console.read("Entrez le nom du client : "))
+    //             .prenomClient(Console.read("Entrez le prénom du client : "))
+    //             .adresseClient(Console.read("Entrez l'adresse du client : "));
+    // }
 
     public static void parseDel() {
         // TODO lister les clients

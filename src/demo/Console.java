@@ -149,6 +149,13 @@ public class Console implements Consumer<org.aesh.terminal.Connection> {
         return completions;
     }
 
+    public static boolean customParseBool(String s) throws ParseException {
+        if (s.equalsIgnoreCase("Y") || s.equalsIgnoreCase("1") || s.equalsIgnoreCase("true"))
+            return true;
+        else
+            return false;
+    }
+
     public interface Parser<T> {
         T parse(String toParse) throws ParseException;
     }
