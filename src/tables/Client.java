@@ -66,7 +66,7 @@ public class Client {
 
         /* ------- */
         try {
-            PreparedStatement stmt = Database.getDb().prepareStatement("SELECT mdp FROM CLIENT WHERE emailClient = ?");
+            PreparedStatement stmt = Database.getDb().prepareStatement("SELECT mdp FROM Client WHERE emailClient = ?");
             stmt.setString(1, adresseMail);
             ResultSet rset = stmt.executeQuery();
 

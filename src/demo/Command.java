@@ -19,6 +19,10 @@ public class Command {
 				Display.displayCommandList(commands);
 				break;
 			case "list":
+				if (args.length == 1) {
+					System.out.println("Entrez un argument parmi les suivants : rest, dish, cat, users");
+					return;
+				}
 				switch (args[1]) {
 					case "rest":
 						if (args.length < 3)
@@ -70,9 +74,4 @@ public class Command {
 				System.exit(0);
 		}
 	}
-
-	private static void apply() {
-		// TODO
-	}
-
 }

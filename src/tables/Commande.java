@@ -44,7 +44,7 @@ public class Commande {
         } else if (s == TypeCommande.SUR_PLACE) {
             commande.nbPersonnes(
                     Console.readWithParse("Entrez le nombre de places à réserver :", Integer::parseInt))
-                    .hArrivee(Console.read("Entrez la date d'arrivée :"));
+                    .hArrivee(Console.read("Entrez l'heure à laquelle réserver :"));
         }
         System.out.println(commande);
         // TODO requete SQL pour la commande
