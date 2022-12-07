@@ -62,17 +62,17 @@ public class Restaurant {
         // récupérer les restaurants depuis la bdd et les afficher
         try {
             PreparedStatement stmt = demo.Database.getDb().prepareStatement
-                    ("SELECT nomRest FROM Restaurant R, EstCategorieDe D " +
+                    ("SELECT R.nomRest FROM Restaurant R, EstCategorieDe D " +
                             "WHERE R.emailRest = D.emailRest AND D.nomCategorie = ?");
             stmt.setString(1, nomCatMere);
             ResultSet rset = stmt.executeQuery();
             while (rset.next()) {
                 String nomRest = rset.getString(1);
                 System.out.println(nomRest);
-                ArrayList<String> cats = affFilleRet(nomCatMere);
-                if (cats.size() > 1) {
-                    parseListCatRec(affFilleRet(nomCatMere).get(1));
-                }
+            }
+            ArrayList<String> cats = affFilleRet(nomCatMere);
+            for (int i = 1; i < cats.size(); i++) {
+                parseListCatRec(cats.get(i));
             }
             stmt.close();
         } catch (SQLException e) {
