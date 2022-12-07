@@ -6,8 +6,12 @@ import demo.Database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.lang.Math.min;
+import static tables.Categorie.affMere;
+import static tables.Categorie.affMereRet;
 
 public class Restaurant {
     private static boolean firstRowPrinted = true;
@@ -42,6 +46,27 @@ public class Restaurant {
                 System.out.println(rest);
             }
             firstRowPrinted = true;
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
+    }
+
+    public static void parseListCat() {
+        // récupérer les restaurants depuis la bdd et les afficher
+        try {
+            PreparedStatement stmt = Database.getDb().prepareStatement
+                    ("SELECT R.emailRest, D.nomCategorie " +
+                            "FROM Restaurant R,  EstCategorieDe D " +
+                            "WHERE R.emailRest = D.emailRest");
+            ResultSet rset = stmt.executeQuery();
+            System.out.println("informations restau");
+            HashMap res = new HashMap<String, String>();
+            while (rset.next()) {
+                res.put(rset.getString(1), rset.getString(2));
+            }
+            res.forEach((key, value)
+        -> System.out.println(key + " : " + affMereRet(value.toString())));
         } catch (SQLException e) {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);

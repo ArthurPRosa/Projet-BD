@@ -69,8 +69,28 @@ public class Categorie {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
         }
+    }
 
+    public static String affMereRet(String nomCategorieFille) {
+        return affMereRetRec(nomCategorieFille, "");
+    }
 
+    public static String affMereRetRec(String nomCategorieFille, String meres){
+        try {
+            PreparedStatement stmt = demo.Database.getDb().prepareStatement("SELECT nomCategorieMere FROM APourMere WHERE nomCategorieFille LIKE ?");
+            stmt.setString(1, nomCategorieFille);
+            ResultSet rset = stmt.executeQuery();
+            meres += nomCategorieFille + " | ";
+            while (rset.next()) {
+                String nomCategorieMere = rset.getString(1);
+                return affMereRetRec(nomCategorieMere, meres);
+            }
+            stmt.close();
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
+        return meres;
     }
 
     public static void parseAdd() {

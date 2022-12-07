@@ -26,6 +26,7 @@ public class Command {
 						else
 							switch (args[2]) {
 								case "cat" -> {
+									Restaurant.parseListCat();
 								}
 								case "hor" -> {
 									Restaurant.parseListDateFiltered();
