@@ -8,9 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.Math.min;
 import static tables.Categorie.*;
@@ -57,30 +55,41 @@ public class Restaurant {
 
     public static void parseListCat() {
         String cat = Console.read("Entrez la catégorie recherchée : ");
-        parseListCatRec(cat);
+        PriorityQueue<String> emailsRest = parseListCatRec(cat, new PriorityQueue<String>(new RestComparator()));
+        for (String email : emailsRest) {
+            System.out.println(email);
+        }
     }
 
-    public static void parseListCatRec(String nomCatMere) {
+    public static void parseListCat(String mail) {
+        PriorityQueue<String> emailsRest = parseListCatRec(mail, new PriorityQueue<String>(new RestComparator()));
+        for (String email : emailsRest) {
+            System.out.println(email);
+        }
+    }
+
+    public static PriorityQueue<String> parseListCatRec(String nomCatMere, PriorityQueue<String> listRestCat) {
         // récupérer les restaurants depuis la bdd et les afficher
         try {
             PreparedStatement stmt = demo.Database.getDb().prepareStatement
-                    ("SELECT R.nomRest FROM Restaurant R, EstCategorieDe D " +
+                    ("SELECT R.emailRest FROM Restaurant R, EstCategorieDe D " +
                             "WHERE R.emailRest = D.emailRest AND D.nomCategorie = ?");
             stmt.setString(1, nomCatMere);
             ResultSet rset = stmt.executeQuery();
             while (rset.next()) {
-                String nomRest = rset.getString(1);
-                System.out.println(nomRest);
+                String emailRest = rset.getString(1);
+                listRestCat.add(emailRest);
             }
             ArrayList<String> cats = affFilleRet(nomCatMere);
             for (int i = 1; i < cats.size(); i++) {
-                parseListCatRec(cats.get(i));
+                parseListCatRec(cats.get(i), listRestCat);
             }
             stmt.close();
         } catch (SQLException e) {
             System.err.println("SQL request failed");
             e.printStackTrace(System.err);
         }
+        return listRestCat;
     }
 
     public static void parseListDateFiltered() {
@@ -173,16 +182,18 @@ public class Restaurant {
     public float note() {
         // calculer la note selon les évaluations du restaurant
         int sum = 0;
-        int c = 0;
+        int c = 1;
         try {
             PreparedStatement stmt = Database.getDb().prepareStatement("SELECT note FROM PossedeEvaluation WHERE emailRest LIKE ?");
             stmt.setString(1, emailRest);
             ResultSet rset = stmt.executeQuery();
             sum = 0;
-            c = 0;
+            c = 1;
+            int count = 0;
             while (rset.next()) {
                 sum += rset.getInt(1);
-                c++;
+                c = (count == 0) ? 1 : ++c;
+                count++;
             }
 
             stmt.close();
@@ -192,6 +203,7 @@ public class Restaurant {
         }
         return (float) (sum / c);
     }
+
 
     @Override
     public String toString() {
@@ -257,5 +269,43 @@ public class Restaurant {
                 .append(("─").repeat(6))
                 .append("┼").append(("─").repeat(7)).append("╢");
         return retString.toString();
+    }
+}
+
+class RestComparator implements Comparator<String> {
+
+    public float note(String email) {
+        // calculer la note selon les évaluations du restaurant
+        int sum = 0;
+        int c = 1;
+        try {
+            PreparedStatement stmt = Database.getDb().prepareStatement("SELECT note FROM PossedeEvaluation WHERE emailRest LIKE ?");
+            stmt.setString(1, email);
+            ResultSet rset = stmt.executeQuery();
+            sum = 0;
+            c = 1;
+            int count = 0;
+            while (rset.next()) {
+                sum += rset.getInt(1);
+                c = (count == 0) ? 1 : ++c;
+                count++;
+            }
+
+            stmt.close();
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
+        return (float) (sum / c);
+    }
+
+    public int compare(String emailRest1, String emailRest2) {
+        float note1 = note(emailRest1);
+        float note2 = note(emailRest2);
+        if (note1 < note2)
+            return 1;
+        else if (note1 > note2)
+            return -1;
+        return 0;
     }
 }

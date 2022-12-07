@@ -2,10 +2,10 @@
 - [x] Connexion du client à l’application avec son email comme identifiant et vérification du mot de passe.
 
 ## Catégories
-- [ ] Parcours des catégories et sous-catégories, ou des catégories recommandées, au choix. Les  restaurants des catégories seront affichés par ordre décroissant de leur note et par ordre alphabétique (un seul tri multicritère).
-- [ ] Ajout d'un liste de catégorie recommandée.
+- [x] Parcours des catégories et sous-catégories, ou des catégories recommandées, au choix. Les  restaurants des catégories seront affichés par ordre décroissant de leur note et par ordre alphabétique (un seul tri multicritère).
+- [x] Ajout d'un liste de catégorie recommandée.
 - [x] Affichage des restau par catégorie.
-- [ ] Quand l'utilisateur se connecte, afficher les restau de la catégorie recommandée.
+- [x] Quand l'utilisateur se connecte, afficher les restau de la catégorie recommandée.
 
 `list rest` : liste tous les attributs d'un restaurant (+ note + catégories)
 `list rest all` : `liste rest` pour tous les restaurants

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import static java.lang.Math.min;
-import static tables.Restaurant.parseListCatRec;
+import static tables.Restaurant.parseListCat;
 
 public class Client {
     private String emailClient;
@@ -94,7 +94,7 @@ public class Client {
                         recommandations.put(rset.getInt(1), "Cuisine européenne");
                     }
                     System.out.println("Les recommandations pour votre commande sont les suivantes : ");
-                    parseListCatRec(recommandations.get(rset.getInt(1)));
+                    parseListCat(recommandations.get(rset.getInt(1)));
                     return true;
                 } else {
                     stmt.close();
