@@ -7,6 +7,7 @@ import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,7 @@ import static tables.Categorie.*;
 
 public class Restaurant {
     private static boolean firstRowPrinted = true;
+    private static DecimalFormat df = new DecimalFormat("##.##");
     private static String emailRest;
     private static String nomRest;
     private static int telRest;
@@ -195,7 +197,7 @@ public class Restaurant {
     public String toString() {
         String strTelRest = String.valueOf(telRest);
         String strCapMax = String.valueOf(capaciteMax);
-        String strNote = String.valueOf(noteRest);
+        String strNote = String.valueOf(df.format(noteRest));
 
         int sizeEmail = emailRest.length();
         int sizenomRest = nomRest.length();
