@@ -100,19 +100,17 @@ public class Restaurant {
 
         try {
             PreparedStatement stmt = Database.getDb().prepareStatement
-                    ("SELECT * " +
-                            "FROM RESTAURANT R, POSSEDEHORAIRES P" +
-                            "WHERE R.emailRest = P.emailRest AND P.jour = ?" +
+                    ("SELECT R.emailRest " +
+                            "FROM Restaurant R, PossedeHoraires P " +
+                            "WHERE R.emailRest = P.emailRest AND P.jour = ? " +
                             "AND P.heureOuverture <= ? AND P.heureFermeture >= ?");
-            stmt.setString(0, jour);
-            stmt.setString(1, heure);
+            stmt.setString(1, jour);
             stmt.setString(2, heure);
+            stmt.setString(3, heure);
             ResultSet rset = stmt.executeQuery();
 
             while (rset.next()) {
-                for (int i = 0; i < 4; i++) {
-                    System.out.println(rset.getString(i));
-                }
+                System.out.println(rset.getString(1));
             }
             firstRowPrinted = true;
         } catch (SQLException e) {
