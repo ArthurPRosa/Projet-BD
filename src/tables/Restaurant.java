@@ -1,17 +1,18 @@
 package tables;
 
-import demo.Console;
-import demo.Database;
+import static java.lang.Math.min;
+import static tables.Categorie.affFilleRet;
 
-import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
-import static java.lang.Math.min;
-import static tables.Categorie.*;
+import demo.Console;
+import demo.Database;
 
 public class Restaurant {
     private static boolean firstRowPrinted = true;

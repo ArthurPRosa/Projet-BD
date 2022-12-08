@@ -1,14 +1,13 @@
 package tables;
 
-import demo.Console;
+import static java.lang.Math.min;
 
-import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static java.lang.Math.min;
+import demo.Console;
 
 public class Plat {
     private static int count = 0;

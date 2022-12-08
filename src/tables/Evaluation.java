@@ -1,11 +1,10 @@
 package tables;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import demo.Console;
 import demo.Database;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Evaluation {
     private String dateEval;
