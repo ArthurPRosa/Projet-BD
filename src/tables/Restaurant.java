@@ -39,12 +39,12 @@ public class Restaurant {
             ResultSet rset = stmt.executeQuery();
             System.out.println("informations restau");
             while (rset.next()) {
-                Restaurant rest = new Restaurant((rset.getString(1)));
-                nomRest = rset.getString(2);
-                telRest = rset.getInt(3);
-                adresseRest = rset.getString(4);
-                presentation = rset.getString(5);
-                capaciteMax = rset.getInt(6);
+                Restaurant rest = new Restaurant((rset.getString(1)))
+                        .nom(rset.getString(2))
+                        .numTel(rset.getInt(3))
+                        .adr(rset.getString(4))
+                        .textPres(rset.getString(5))
+                        .nbPlace(rset.getInt(6));
                 System.out.println(rest);
             }
             firstRowPrinted = true;
@@ -208,7 +208,7 @@ public class Restaurant {
     public String toString() {
         String strTelRest = String.valueOf(telRest);
         String strCapMax = String.valueOf(capaciteMax);
-        String strNote = String.valueOf(df.format(noteRest));
+        String strNote = String.valueOf(this.note());
 
         int sizeEmail = emailRest.length();
         int sizenomRest = nomRest.length();
