@@ -96,7 +96,10 @@ public class Restaurant {
     public static void parseListDateFiltered() {
         //Horaires.Jour jour = Console.readWithParse("Entrez le jour de la semaine : ", Horaires.Jour::parse);
         String jour = Console.read("Entrez le jour de la semaine : ");
-        String heure = Console.read("Entrez l'heure d'ouverture");
+        int heures = Integer.parseInt(Console.read("Entrez l'heure d'ouverture (h)"));
+        int minutes = Integer.parseInt(Console.read("Entrez les minutes d'ouverture (min)"));
+
+        String heure = String.valueOf(heures * 60 + minutes);
 
         try {
             PreparedStatement stmt = Database.getDb().prepareStatement
