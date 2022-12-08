@@ -54,20 +54,43 @@ public class Restaurant {
         }
     }
 
+    public static void parseRest(PriorityQueue<String> emailsRest) {
+        // récupérer les restaurants depuis la bdd et les afficher
+        try {
+            for(String emailRest : emailsRest) {
+                PreparedStatement stmt = Database.getDb().prepareStatement
+                        ("SELECT * " +
+                                "FROM Restaurant R " +
+                                "WHERE R.emailRest = ?");
+                stmt.setString(1, emailRest);
+                ResultSet rset = stmt.executeQuery();
+                while (rset.next()) {
+                    Restaurant rest = new Restaurant((rset.getString(1)))
+                            .nom(rset.getString(2))
+                            .numTel(rset.getInt(3))
+                            .adr(rset.getString(4))
+                            .textPres(rset.getString(5))
+                            .nbPlace(rset.getInt(6));
+                    System.out.println(rest);
+                }
+            }
+            firstRowPrinted = true;
+        } catch (SQLException e) {
+            System.err.println("SQL request failed");
+            e.printStackTrace(System.err);
+        }
+    }
+
     public static void parseListCat() {
         String cat = Console.read("Entrez la catégorie recherchée : ");
         PriorityQueue<String> emailsRest = parseListCatRec(cat, new PriorityQueue<String>(new RestComparator()));
-        for (String email : emailsRest) {
-            System.out.println(email);
-        }
+        parseRest(emailsRest);
     }
 
     public static void parseListCat(String mail) {
         PriorityQueue<String> emailsRest = parseListCatRec(mail, new PriorityQueue<String>(new RestComparator()));
-        for (String email : emailsRest) {
-            System.out.println(email);
+        parseRest(emailsRest);
         }
-    }
 
     public static PriorityQueue<String> parseListCatRec(String nomCatMere, PriorityQueue<String> listRestCat) {
         // récupérer les restaurants depuis la bdd et les afficher
