@@ -17,6 +17,9 @@ public class Plat {
     private int prix;
     private String descPlat;
 
+    /**
+     * JavaDoc de Test...
+     */
     public static void parseList() {
         try {
             PreparedStatement stmt = demo.Database.getDb().prepareStatement
